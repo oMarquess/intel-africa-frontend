@@ -22,15 +22,15 @@ const PARTNER_LOGOS = [
 
 export function PartnerCarousel() {
   return (
-    <section className="w-full py-2 bg-background">
+    <section className="w-full py-2 bg-zinc-50 dark:bg-black">
       <div className="container mx-auto px-4">
         
         <div className="relative overflow-hidden">
           {/* Left fade */}
-          <div className="absolute left-0 top-0 bottom-0 w-32 bg-gradient-to-r from-background to-transparent z-10 pointer-events-none" />
+          <div className="absolute left-0 top-0 bottom-0 w-32 bg-gradient-to-r from-zinc-50 dark:from-black to-transparent z-10 pointer-events-none" />
           
           {/* Right fade */}
-          <div className="absolute right-0 top-0 bottom-0 w-32 bg-gradient-to-l from-background to-transparent z-10 pointer-events-none" />
+          <div className="absolute right-0 top-0 bottom-0 w-32 bg-gradient-to-l from-zinc-50 dark:from-black to-transparent z-10 pointer-events-none" />
           
           <motion.div
             className="flex gap-16 items-center"

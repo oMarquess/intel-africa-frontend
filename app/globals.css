@@ -57,6 +57,7 @@
   --shadow-xs: var(--shadow-xs);
   --shadow-2xs: var(--shadow-2xs);
   --color-destructive-foreground: var(--destructive-foreground);
+  --animate-spin: spin 2s linear infinite;
 }
 
 :root {
