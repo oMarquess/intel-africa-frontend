@@ -12,6 +12,7 @@ import { FeaturesSection } from '../components/features-section';
 import HowItWorksSection from '../components/how-it-works-section';
 import { FAQSection } from '../components/faq-section';
 import { GridPatternSection } from '../components/grid-pattern-section';
+import { Footer } from '../components/footer';
 
 export function LandingPageView() {
   const heroRef = useRef<HTMLDivElement>(null);
@@ -81,6 +82,8 @@ export function LandingPageView() {
       <FAQSection />
       
       <GridPatternSection />
+      
+      <Footer />
     </div>
   );
 }
