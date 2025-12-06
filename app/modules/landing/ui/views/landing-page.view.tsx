@@ -9,6 +9,9 @@ import { PartnerCarousel } from '../components/partner-carousel';
 import { WhyIntelAfrica } from '../components/why-intel-africa';
 import { ApiSection } from '../components/api-section';
 import { FeaturesSection } from '../components/features-section';
+import HowItWorksSection from '../components/how-it-works-section';
+import { FAQSection } from '../components/faq-section';
+import { GridPatternSection } from '../components/grid-pattern-section';
 
 export function LandingPageView() {
   const heroRef = useRef<HTMLDivElement>(null);
@@ -61,9 +64,23 @@ export function LandingPageView() {
       {/* Content Sections */}
       <WhyIntelAfrica />
       
+ 
+      
       <ApiSection />
       
       <FeaturesSection />
+      {/* <div className="text-center py-8">
+        <p className="text-2xl" style={{color:'#ca6441'}}>hi</p>
+      </div> */}
+      {/* <div className="text-center py-8 bg-white">
+
+      </div> */}
+
+      <HowItWorksSection />
+      
+      <FAQSection />
+      
+      <GridPatternSection />
     </div>
   );
 }
