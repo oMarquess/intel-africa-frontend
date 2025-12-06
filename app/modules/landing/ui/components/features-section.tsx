@@ -1,9 +1,55 @@
 'use client';
 
 import { BackgroundBeams } from '@/components/ui/shadcn-io/background-beams';
-import { AudioWaveform, Languages, Headset, Code2 } from 'lucide-react';
+import { AudioWaveform, Languages, Headset, Code2, ChevronLeft, ChevronRight } from 'lucide-react';
+import { useState, useEffect } from 'react';
+import { motion, AnimatePresence } from 'motion/react';
+
+const features = [
+  {
+    title: 'African Voice Recognition',
+    description: 'Our AI speech-to-text technology is specifically trained on African accents and dialects, delivering over 70% improvement in transcription accuracy compared to global alternatives. Perfect for call centers, customer service, and any business working with African voices.',
+    icon: AudioWaveform,
+  },
+  {
+    title: 'Real-Time Translation',
+    description: 'Seamlessly translate conversations across multiple African languages in real-time. Our translation engine understands context, idioms, and cultural nuances, ensuring accurate communication for multilingual teams and customer interactions.',
+    icon: Languages,
+  },
+  {
+    title: 'Call-Center Intelligence',
+    description: 'Automate quality assurance, compliance tracking, and agent evaluation with AI-powered insights. Monitor customer sentiment, identify training opportunities, and generate actionable reports that improve service quality and operational efficiency.',
+    icon: Headset,
+  },
+  {
+    title: 'Developer-Ready APIs',
+    description: 'Drop-in replacement for existing speech and translation APIs with full compatibility across Python, Node.js, Go, and FastAPI. Lightweight architecture optimized for African infrastructure, with enterprise-grade fine-tuning and access controls.',
+    icon: Code2,
+  },
+];
 
 export function FeaturesSection() {
+  const [currentIndex, setCurrentIndex] = useState(0);
+
+  const nextFeature = () => {
+    setCurrentIndex((prev) => (prev + 1) % features.length);
+  };
+
+  const prevFeature = () => {
+    setCurrentIndex((prev) => (prev - 1 + features.length) % features.length);
+  };
+
+  // Auto-advance carousel every 5 seconds
+  useEffect(() => {
+    const interval = setInterval(() => {
+      nextFeature();
+    }, 5000);
+
+    return () => clearInterval(interval);
+  }, []);
+
+  const CurrentIcon = features[currentIndex].icon;
+
   return (
     <section className="relative w-full py-24 bg-zinc-50 dark:bg-black overflow-hidden">
       <BackgroundBeams className="absolute inset-0" />
@@ -18,93 +64,80 @@ export function FeaturesSection() {
               </h2>
             </div>
 
-            {/* 3 Columns Below */}
-            <div className="grid grid-cols-1 md:grid-cols-7 gap-8 items-start">
-              {/* Column 1 - Navigation */}
-              <div className="md:col-span-2 space-y-4">
-                <div className="flex items-center gap-3">
-                  <div className="w-3 h-3 flex-shrink-0" style={{ backgroundColor: '#ca6441' }}></div>
-                  <h4 className="text-sm font-semibold uppercase leading-tight tracking-wide">African Voice Recognition</h4>
-                </div>
-                <div className="flex items-center gap-3">
-                  <div className="w-3 h-3 flex-shrink-0" style={{ backgroundColor: '#ca6441' }}></div>
-                  <h4 className="text-sm font-semibold uppercase leading-tight tracking-wide">Real-Time Translation</h4>
-                </div>
-                <div className="flex items-center gap-3">
-                  <div className="w-3 h-3 flex-shrink-0" style={{ backgroundColor: '#ca6441' }}></div>
-                  <h4 className="text-sm font-semibold uppercase leading-tight tracking-wide">Call-Center Intelligence</h4>
-                </div>
-                <div className="flex items-center gap-3">
-                  <div className="w-3 h-3 flex-shrink-0" style={{ backgroundColor: '#ca6441' }}></div>
-                  <h4 className="text-sm font-semibold uppercase leading-tight tracking-wide">Developer-Ready APIs</h4>
-                </div>
-              </div>
+            {/* Carousel Navigation - Horizontal Pills */}
+            <div className="flex flex-wrap gap-1.5 justify-center">
+              {features.map((feature, index) => (
+                <button
+                  key={index}
+                  onClick={() => setCurrentIndex(index)}
+                  className={`px-3 py-1.5 rounded-full text-[10px] font-semibold uppercase tracking-wide transition-all duration-300 ${
+                    currentIndex === index 
+                      ? 'bg-primary text-primary-foreground shadow-lg' 
+                      : 'bg-muted text-muted-foreground hover:bg-muted/80'
+                  }`}
+                >
+                  {feature.title}
+                </button>
+              ))}
+            </div>
 
-              {/* Column 2 - Content */}
-              <div className="md:col-span-2 space-y-4 border-r border-b border-border/30 pr-8 pb-8">
-                <h3 className="text-xl font-semibold">African Voice Recognition</h3>
-                <p className="text-muted-foreground">
-                  Our AI speech-to-text technology is specifically trained on African accents and dialects, delivering over 70% improvement in transcription accuracy compared to global alternatives. Perfect for call centers, customer service, and any business working with African voices.
-                </p>
-              </div>
+            {/* Carousel Content */}
+            <div className="relative min-h-[300px]">
+              <AnimatePresence mode="wait">
+                <motion.div
+                  key={currentIndex}
+                  initial={{ opacity: 0, x: 100 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  exit={{ opacity: 0, x: -100 }}
+                  transition={{ duration: 0.3 }}
+                  className="grid grid-cols-1 md:grid-cols-2 gap-8 items-center"
+                >
+                  {/* Content */}
+                  <div className="space-y-4">
+                    <h3 className="text-2xl font-semibold">{features[currentIndex].title}</h3>
+                    <p className="text-muted-foreground leading-relaxed">
+                      {features[currentIndex].description}
+                    </p>
+                  </div>
 
-              {/* Column 3 - Content */}
-              <div className="md:col-span-3 space-y-4 flex items-center justify-center pl-8 border-b border-border/30 pb-8">
-                <div className="flex items-center gap-0">
-                  <AudioWaveform className="w-90 h-90 text-primary" strokeWidth={1.5} />
-                  {/* <div className="w-8 h-0.5 bg-primary"></div>
-                  <AudioWaveform className="w-60 h-60 text-primary" strokeWidth={1.5} /> */}
-                </div>
-              </div>
+                  {/* Icon */}
+                  <div className="flex items-center justify-center">
+                    <CurrentIcon className="w-40 h-40 md:w-60 md:h-60 text-primary" strokeWidth={1.5} />
+                  </div>
+                </motion.div>
+              </AnimatePresence>
+            </div>
 
-              {/* Row 2 - Empty Column 1 */}
-              <div className="md:col-span-2 border-b border-border/30 pb-8"></div>
-
-              {/* Row 2 - Real-Time Translation */}
-              <div className="md:col-span-2 space-y-4 border-r border-b border-border/30 pr-8 pb-8 pt-8">
-                <h3 className="text-xl font-semibold">Real-Time Translation</h3>
-                <p className="text-muted-foreground">
-                  Seamlessly translate conversations across multiple African languages in real-time. Our translation engine understands context, idioms, and cultural nuances, ensuring accurate communication for multilingual teams and customer interactions.
-                </p>
-              </div>
-
-              {/* Row 2 - Column 3 - Translation Icon */}
-              <div className="md:col-span-3 space-y-4 flex items-center justify-center pl-8 border-b border-border/30 pb-8 pt-8">
-                <Languages className="w-90 h-90 text-primary" strokeWidth={1.5} />
-              </div>
-
-              {/* Row 3 - Empty Column 1 */}
-              <div className="md:col-span-2 border-b border-border/30 pb-8"></div>
-
-              {/* Row 3 - Call-Center Intelligence */}
-              <div className="md:col-span-2 space-y-4 border-r border-b border-border/30 pr-8 pb-8 pt-8">
-                <h3 className="text-xl font-semibold">Call-Center Intelligence</h3>
-                <p className="text-muted-foreground">
-                  Automate quality assurance, compliance tracking, and agent evaluation with AI-powered insights. Monitor customer sentiment, identify training opportunities, and generate actionable reports that improve service quality and operational efficiency.
-                </p>
-              </div>
-
-              {/* Row 3 - Column 3 - Call Center Icon */}
-              <div className="md:col-span-3 space-y-4 flex items-center justify-center pl-8 border-b border-border/30 pb-8 pt-8">
-                <Headset className="w-90 h-90 text-primary" strokeWidth={1.5} />
-              </div>
-
-              {/* Row 4 - Empty Column 1 */}
-              <div className="md:col-span-2"></div>
-
-              {/* Row 4 - Developer-Ready APIs */}
-              <div className="md:col-span-2 space-y-4 border-r border-border/30 pr-8 pt-8">
-                <h3 className="text-xl font-semibold">Developer-Ready APIs</h3>
-                <p className="text-muted-foreground">
-                  Drop-in replacement for existing speech and translation APIs with full compatibility across Python, Node.js, Go, and FastAPI. Lightweight architecture optimized for African infrastructure, with enterprise-grade fine-tuning and access controls.
-                </p>
-              </div>
-
-              {/* Row 4 - Column 3 - Developer APIs Icon */}
-              <div className="md:col-span-3 space-y-4 flex items-center justify-center pl-8 pt-8">
-                <Code2 className="w-90 h-90 text-primary" strokeWidth={1.5} />
-              </div>
+            {/* Navigation Buttons */}
+            <div className="flex items-center justify-center gap-4">
+              <button
+                onClick={prevFeature}
+                className="p-2 rounded-full border border-border hover:bg-accent transition-colors"
+                aria-label="Previous feature"
+              >
+                <ChevronLeft className="w-6 h-6" />
+              </button>
               
+              <div className="flex gap-2">
+                {features.map((_, index) => (
+                  <button
+                    key={index}
+                    onClick={() => setCurrentIndex(index)}
+                    className={`w-2 h-2 rounded-full transition-all ${
+                      currentIndex === index ? 'bg-primary w-8' : 'bg-border'
+                    }`}
+                    aria-label={`Go to feature ${index + 1}`}
+                  />
+                ))}
+              </div>
+
+              <button
+                onClick={nextFeature}
+                className="p-2 rounded-full border border-border hover:bg-accent transition-colors"
+                aria-label="Next feature"
+              >
+                <ChevronRight className="w-6 h-6" />
+              </button>
             </div>
           </div>
         </div>
