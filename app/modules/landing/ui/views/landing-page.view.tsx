@@ -9,6 +9,7 @@ import { PartnerCarousel } from '../components/partner-carousel';
 import { WhyIntelAfrica } from '../components/why-intel-africa';
 import { ApiSection } from '../components/api-section';
 import { FeaturesSection } from '../components/features-section';
+import { IntegrationSection } from '../components/integration-section';
 import HowItWorksSection from '../components/how-it-works-section';
 import { FAQSection } from '../components/faq-section';
 import { GridPatternSection } from '../components/grid-pattern-section';
@@ -31,14 +32,14 @@ export function LandingPageView() {
   return (
     <div className="min-h-screen">
       <LandingBanner />
-      
+
       {/* Hero Section with Parallax */}
-      <section 
-        ref={heroRef} 
+      <section
+        ref={heroRef}
         className="relative h-screen flex flex-col bg-zinc-50 dark:bg-black overflow-hidden"
       >
         <div className="flex-1 flex items-center justify-center">
-          <motion.div 
+          <motion.div
             style={{ y: textY, opacity: textOpacity }}
             className="relative z-10 container mx-auto px-4 text-center"
           >
@@ -48,14 +49,14 @@ export function LandingPageView() {
             style={{ y: bgY }}
             className="absolute inset-0"
           >
-            <Ripple 
+            <Ripple
               mainCircleSize={200}
               mainCircleOpacity={0.2}
               numCircles={6}
             />
           </motion.div>
         </div>
-        
+
         {/* Carousel at bottom of screen */}
         <div className="relative z-10 pb-8">
           <PartnerCarousel />
@@ -64,11 +65,11 @@ export function LandingPageView() {
 
       {/* Content Sections */}
       <WhyIntelAfrica />
-      
- 
-      
+
+      <IntegrationSection />
+
       {/* <ApiSection /> */}
-      
+
       <FeaturesSection />
       {/* <div className="text-center py-8">
         <p className="text-2xl" style={{color:'#ca6441'}}>hi</p>
@@ -78,11 +79,11 @@ export function LandingPageView() {
       </div> */}
 
       <HowItWorksSection />
-      
+
       <FAQSection />
-      
+
       <GridPatternSection />
-      
+
       <Footer />
     </div>
   );
