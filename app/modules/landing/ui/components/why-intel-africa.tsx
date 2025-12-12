@@ -6,9 +6,9 @@ export function WhyIntelAfrica() {
   return (
     <section id="why-intel-africa" className="w-full py-24 bg-background">
       <div className="container mx-auto px-4">
-        <div className="grid grid-cols-1 lg:grid-cols-5 gap-12 items-start">
-          {/* Left: Text Content - Sticky */}
-          <div className="lg:col-span-2 sticky top-24 space-y-8">
+        <div className="flex flex-col lg:grid lg:grid-cols-5 gap-12 items-start">
+          {/* Left: Text Content - Sticky on desktop */}
+          <div className="lg:col-span-2 lg:sticky lg:top-24 space-y-8 order-1">
             <h2 className="text-3xl font-bold tracking-tight mb-8">
               Why Intelligence Africa?
             </h2>
@@ -34,8 +34,8 @@ export function WhyIntelAfrica() {
             </div>
           </div>
 
-          {/* Right: Spline 3D Scene - Larger */}
-          <div className="lg:col-span-3 relative w-full h-[800px] rounded-lg overflow-hidden">
+          {/* Right: Spline 3D Scene - Appears after text on mobile */}
+          <div className="lg:col-span-3 relative w-full h-[800px] rounded-lg overflow-hidden order-2">
             <Script 
               type="module" 
               src="https://unpkg.com/@splinetool/viewer@1.9.28/build/spline-viewer.js"

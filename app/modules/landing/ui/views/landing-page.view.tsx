@@ -67,7 +67,7 @@ export function LandingPageView() {
       
  
       
-      <ApiSection />
+      {/* <ApiSection /> */}
       
       <FeaturesSection />
       {/* <div className="text-center py-8">

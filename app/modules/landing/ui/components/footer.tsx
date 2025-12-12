@@ -9,7 +9,7 @@ export function Footer() {
   return (
     <footer className="w-full border-t bg-white">
       <div className="container mx-auto px-4 py-12">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-8">
           {/* Company Info */}
           <div>
             <h3 className="font-bold text-lg mb-4" style={{ fontFamily: 'Doto, sans-serif' }}>
@@ -61,38 +61,6 @@ export function Footer() {
               <li>
                 <Link href="#" className="text-gray-600 hover:text-[#ca6441] transition-colors">
                   Use Cases
-                </Link>
-              </li>
-            </ul>
-          </div>
-
-          {/* Company */}
-          <div>
-            <h4 className="font-semibold mb-4">Company</h4>
-            <ul className="space-y-2 text-sm">
-              <li>
-                <Link href="#" className="text-gray-600 hover:text-[#ca6441] transition-colors">
-                  About Us
-                </Link>
-              </li>
-              <li>
-                <Link href="#" className="text-gray-600 hover:text-[#ca6441] transition-colors">
-                  Careers
-                </Link>
-              </li>
-              <li>
-                <Link href="#" className="text-gray-600 hover:text-[#ca6441] transition-colors">
-                  Blog
-                </Link>
-              </li>
-              <li>
-                <Link href="#" className="text-gray-600 hover:text-[#ca6441] transition-colors">
-                  Press Kit
-                </Link>
-              </li>
-              <li>
-                <Link href="#" className="text-gray-600 hover:text-[#ca6441] transition-colors">
-                  Contact
                 </Link>
               </li>
             </ul>
