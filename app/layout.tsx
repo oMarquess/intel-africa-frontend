@@ -9,7 +9,6 @@ import {
   UserButton,
 } from "@clerk/nextjs";
 import "./globals.css";
-import { ThemeProvider } from "@/components/theme-provider";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -33,47 +32,40 @@ export default function RootLayout({
 }>) {
   return (
     <ClerkProvider>
-      <ThemeProvider
-        attribute="class"
-        defaultTheme="system"
-        enableSystem
-        disableTransitionOnChange
-      >
-        <html lang="en" suppressHydrationWarning>
-          <head>
-            <link rel="preconnect" href="https://fonts.googleapis.com" />
-            <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
-            <link href="https://fonts.googleapis.com/css2?family=Doto:wght@100..900&display=swap" rel="stylesheet" />
-          </head>
-          <body
-            className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-          >
-            {/* <header className="border-b">
-              <nav className="container mx-auto px-4 py-4 flex justify-between items-center">
-                <h1 className="text-xl font-bold">DLP AI</h1>
-                <div className="flex gap-4 items-center">
-                  <SignedOut>
-                    <SignInButton mode="modal">
-                      <button className="px-4 py-2 rounded-md bg-blue-600 text-white hover:bg-blue-700">
-                        Sign In
-                      </button>
-                    </SignInButton>
-                    <SignUpButton mode="modal">
-                      <button className="px-4 py-2 rounded-md border border-gray-300 hover:bg-gray-50">
-                        Sign Up
-                      </button>
-                    </SignUpButton>
-                  </SignedOut>
-                  <SignedIn>
-                    <UserButton />
-                  </SignedIn>
-                </div>
-              </nav>
-            </header> */}
-            {children}
-          </body>
-        </html>
-      </ThemeProvider>
+      <html lang="en" suppressHydrationWarning>
+        <head>
+          <link rel="preconnect" href="https://fonts.googleapis.com" />
+          <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+          <link href="https://fonts.googleapis.com/css2?family=Doto:wght@100..900&display=swap" rel="stylesheet" />
+        </head>
+        <body
+          className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        >
+          {/* <header className="border-b">
+            <nav className="container mx-auto px-4 py-4 flex justify-between items-center">
+              <h1 className="text-xl font-bold">DLP AI</h1>
+              <div className="flex gap-4 items-center">
+                <SignedOut>
+                  <SignInButton mode="modal">
+                    <button className="px-4 py-2 rounded-md bg-blue-600 text-white hover:bg-blue-700">
+                      Sign In
+                    </button>
+                  </SignInButton>
+                  <SignUpButton mode="modal">
+                    <button className="px-4 py-2 rounded-md border border-gray-300 hover:bg-gray-50">
+                      Sign Up
+                    </button>
+                  </SignUpButton>
+                </SignedOut>
+                <SignedIn>
+                  <UserButton />
+                </SignedIn>
+              </div>
+            </nav>
+          </header> */}
+          {children}
+        </body>
+      </html>
     </ClerkProvider>
   );
 }

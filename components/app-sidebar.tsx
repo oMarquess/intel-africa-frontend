@@ -10,6 +10,8 @@ import {
   Sidebar,
   SidebarContent,
   SidebarFooter,
+  SidebarGroup,
+  SidebarGroupContent,
   SidebarHeader,
   SidebarMenu,
   SidebarMenuButton,
@@ -19,99 +21,74 @@ import {
 const data = {
   navMain: [
     {
-      title: "Dashboard",
-      url: "/dashboard",
-    },
-    {
-      title: "Lifecycle",
-      url: "#",
-    },
-    {
-      title: "Analytics",
-      url: "#",
-    },
-    {
-      title: "Projects",
-      url: "#",
-    },
-    {
-      title: "Team",
-      url: "#",
-    },
-  ],
-  navClouds: [
-    {
-      title: "Capture",
-      isActive: true,
+      title: "Get Started",
       url: "#",
       items: [
         {
-          title: "Active Proposals",
-          url: "#",
-        },
-        {
-          title: "Archived",
-          url: "#",
+          title: "Model",
+          url: "/dashboard/model",
         },
       ],
     },
     {
-      title: "Proposal",
+      title: "Manage",
       url: "#",
       items: [
         {
-          title: "Active Proposals",
-          url: "#",
+          title: "Usage",
+          url: "/dashboard/usage",
         },
         {
-          title: "Archived",
-          url: "#",
+          title: "API Keys",
+          url: "/dashboard/api-keys",
+        },
+        {
+          title: "Logs",
+          url: "/dashboard/logs",
         },
       ],
     },
-    {
-      title: "Prompts",
-      url: "#",
-      items: [
-        {
-          title: "Active Proposals",
-          url: "#",
-        },
-        {
-          title: "Archived",
-          url: "#",
-        },
-      ],
-    },
+    // {
+    //   title: "Analytics",
+    //   url: "/dashboard/analytics",
+    // },
+    // {
+    //   title: "Projects",
+    //   url: "/dashboard/projects",
+    // },
+    // {
+    //   title: "Settings",
+    //   url: "/dashboard/settings",
+    // },
   ],
   navSecondary: [
     {
-      title: "Settings",
-      url: "#",
+      title: "Documentation",
+      url: "/docs",
     },
     {
-      title: "Get Help",
-      url: "#",
+      title: "Support",
+      url: "/support",
     },
     {
-      title: "Search",
-      url: "#",
+      title: "Billing",
+      url: "/dashboard/billing",
     },
   ],
-  documents: [
-    {
-      name: "Data Library",
-      url: "#",
-    },
-    {
-      name: "Reports",
-      url: "#",
-    },
-    {
-      name: "Word Assistant",
-      url: "#",
-    },
-  ],
+  // documents: [
+  //   {
+  //     name: "Transcriptions",
+  //     url: "/dashboard/transcriptions",
+  //   },
+  //   {
+  //     name: "Recordings",
+  //     url: "/dashboard/recordings",
+  //   },
+  //   {
+  //     name: "Models",
+  //     url: "/dashboard/models",
+  //   },
+  // ],
 }
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
@@ -132,9 +109,95 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
         </SidebarMenu>
       </SidebarHeader>
       <SidebarContent>
-        <NavMain items={data.navMain} />
-        <NavDocuments items={data.documents} />
-        <NavSecondary items={data.navSecondary} className="mt-auto" />
+        {/* Get Started Section */}
+        <SidebarGroup>
+          <SidebarGroupContent className="flex flex-col gap-2">
+            <SidebarMenu>
+              {data.navMain
+                .filter(item => item.title === "Get Started")
+                .map((item) => (
+                <SidebarMenuItem key={item.title}>
+                  <SidebarMenuButton tooltip={item.title} asChild>
+                    <a href={item.url}>
+                      <span className="font-medium">{item.title}</span>
+                    </a>
+                  </SidebarMenuButton>
+                </SidebarMenuItem>
+              ))}
+            </SidebarMenu>
+            {data.navMain
+              .filter(item => item.title === "Get Started" && item.items)
+              .map((item) => (
+                <SidebarMenu key={item.title}>
+                  {item.items?.map((subItem) => (
+                    <SidebarMenuItem key={subItem.title}>
+                      <SidebarMenuButton tooltip={subItem.title} asChild>
+                        <a href={subItem.url} className="pl-6">
+                          <span className="font-medium">{subItem.title}</span>
+                        </a>
+                      </SidebarMenuButton>
+                    </SidebarMenuItem>
+                  ))}
+                </SidebarMenu>
+              ))}
+          </SidebarGroupContent>
+        </SidebarGroup>
+
+        {/* Manage Section */}
+        <SidebarGroup>
+          <SidebarGroupContent className="flex flex-col gap-2">
+            <SidebarMenu>
+              {data.navMain
+                .filter(item => item.title === "Manage")
+                .map((item) => (
+                <SidebarMenuItem key={item.title}>
+                  <SidebarMenuButton tooltip={item.title} asChild>
+                    <a href={item.url}>
+                      <span className="font-medium">{item.title}</span>
+                    </a>
+                  </SidebarMenuButton>
+                </SidebarMenuItem>
+              ))}
+            </SidebarMenu>
+            {data.navMain
+              .filter(item => item.title === "Manage" && item.items)
+              .map((item) => (
+                <SidebarMenu key={item.title}>
+                  {item.items?.map((subItem) => (
+                    <SidebarMenuItem key={subItem.title}>
+                      <SidebarMenuButton tooltip={subItem.title} asChild>
+                        <a href={subItem.url} className="pl-6">
+                          <span className="font-medium">{subItem.title}</span>
+                        </a>
+                      </SidebarMenuButton>
+                    </SidebarMenuItem>
+                  ))}
+                </SidebarMenu>
+              ))}
+          </SidebarGroupContent>
+        </SidebarGroup>
+
+        {/* Other Navigation */}
+        <SidebarGroup>
+          <SidebarGroupContent className="flex flex-col gap-2">
+            <SidebarMenu>
+              {data.navMain
+                .filter(item => !["Get Started", "Manage"].includes(item.title))
+                .map((item) => (
+                <SidebarMenuItem key={item.title}>
+                  <SidebarMenuButton tooltip={item.title} asChild>
+                    <a href={item.url}>
+                      <span className="font-medium">{item.title}</span>
+                    </a>
+                  </SidebarMenuButton>
+                </SidebarMenuItem>
+              ))}
+            </SidebarMenu>
+          </SidebarGroupContent>
+        </SidebarGroup>
+
+        {/* <NavDocuments items={data.documents} />
+        <NavSecondary items={data.navSecondary} className="mt-auto" /> */}
       </SidebarContent>
       <SidebarFooter>
         <NavUser />
