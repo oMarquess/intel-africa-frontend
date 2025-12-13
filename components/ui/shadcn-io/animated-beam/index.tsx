@@ -1,7 +1,7 @@
 "use client";
 
 import { motion } from "motion/react";
-import { RefObject, useEffect, useId, useState } from "react";
+import { RefObject, useEffect, useId, useState, useMemo } from "react";
 
 import { cn } from "@/lib/utils";
 
@@ -32,7 +32,7 @@ export const AnimatedBeam: React.FC<AnimatedBeamProps> = ({
   toRef,
   curvature = 0,
   reverse = false, // Include the reverse prop
-  duration = Math.random() * 3 + 4,
+  duration = 4,
   delay = 0,
   pathColor = "gray",
   pathWidth = 2,
@@ -44,7 +44,11 @@ export const AnimatedBeam: React.FC<AnimatedBeamProps> = ({
   endXOffset = 0,
   endYOffset = 0,
 }) => {
-  const id = useId();
+  const id = useMemo(() => {
+    // Create a deterministic ID based on component props to avoid hydration mismatch
+    const propsString = `${curvature}-${reverse}-${duration}-${delay}-${startXOffset}-${startYOffset}-${endXOffset}-${endYOffset}`;
+    return `animated-beam-${propsString.replace(/[^a-zA-Z0-9]/g, '-')}`;
+  }, [curvature, reverse, duration, delay, startXOffset, startYOffset, endXOffset, endYOffset]);
   const [pathD, setPathD] = useState("");
   const [svgDimensions, setSvgDimensions] = useState({ width: 0, height: 0 });
 
