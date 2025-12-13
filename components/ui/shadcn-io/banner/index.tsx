@@ -32,7 +32,7 @@ export type BannerProps = HTMLAttributes<HTMLDivElement> & {
 export const Banner = ({
   children,
   visible,
-  defaultVisible = true,
+  defaultVisible = false,
   onClose,
   className,
   inset = false,

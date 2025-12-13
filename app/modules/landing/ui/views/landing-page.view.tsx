@@ -14,6 +14,9 @@ import HowItWorksSection from '../components/how-it-works-section';
 import { FAQSection } from '../components/faq-section';
 import { GridPatternSection } from '../components/grid-pattern-section';
 import { Footer } from '../components/footer';
+import { Navbar } from '../components/navbar';
+import { Pill, PillStatus } from '@/components/ui/shadcn-io/pill';
+import { CheckCircleIcon } from 'lucide-react';
 
 export function LandingPageView() {
   const heroRef = useRef<HTMLDivElement>(null);
@@ -31,6 +34,7 @@ export function LandingPageView() {
 
   return (
     <div className="min-h-screen">
+      <Navbar />
       <LandingBanner />
 
       {/* Hero Section with Parallax */}
@@ -38,6 +42,16 @@ export function LandingPageView() {
         ref={heroRef}
         className="relative h-screen flex flex-col bg-zinc-50 dark:bg-black overflow-hidden"
       >
+        {/* Status Pill */}
+        <div className="flex justify-center pt-24 relative z-10">
+          <Pill>
+            <PillStatus>
+              <CheckCircleIcon className="text-emerald-500" size={12} />
+              Passed
+            </PillStatus>
+            Still under construction
+          </Pill>
+        </div>
         <div className="flex-1 flex items-center justify-center">
           <motion.div
             style={{ y: textY, opacity: textOpacity }}
