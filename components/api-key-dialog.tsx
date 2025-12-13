@@ -59,9 +59,9 @@ export function ApiKeyDialog({ children }: ApiKeyDialogProps) {
 
   const handleCreateKey = async () => {
     if (!isFormValid) return
-    
+
     setIsSubmitting(true)
-    
+
     try {
       // Get JWT token from Clerk
       const token = await getToken()
@@ -72,20 +72,20 @@ export function ApiKeyDialog({ children }: ApiKeyDialogProps) {
       // Create API key using the service
       const createData: CreateApiKeyDto = {
         name: keyName.trim(),
-        permission: permissions === "full" ? "FULL_ACCESS" : 
-                   permissions === "read" ? "READ_ONLY" : "TRANSCRIBE_ONLY",
-        expiration_policy: expiration === "never" ? "NEVER" : 
-                           expiration === "30" ? "DAYS_30" : 
-                           expiration === "90" ? "DAYS_90" : "DAYS_365",
+        permission: permissions === "full" ? "full_access" :
+          permissions === "read" ? "read_only" : "transcribe_only",
+        expiration_policy: expiration === "never" ? "never" :
+          expiration === "30" ? "30_days" :
+            expiration === "90" ? "90_days" : "1_year",
         created_by: "", // Will be populated by the service from JWT token
         permissions: {} // Empty JSON object as requested
       }
-      
+
       const result = await apiKeyService.createApiKey(createData, token)
-      
+
       // Set the created key for display
       setCreatedKey(result.secret_key)
-      
+
     } catch (error) {
       console.error('Failed to create API key:', error)
       // Handle error - could show toast or error message
@@ -156,12 +156,12 @@ export function ApiKeyDialog({ children }: ApiKeyDialogProps) {
             <div className="grid grid-cols-2 gap-4">
               <div className="grid gap-2">
                 <Label htmlFor="permissions">Permissions</Label>
-                <Select 
-                  value={permissions} 
+                <Select
+                  value={permissions}
                   onValueChange={(value) => {
                     setPermissions(value)
                     setFieldTouched(prev => ({ ...prev, permissions: true }))
-                  }} 
+                  }}
                   disabled={isSubmitting}
                 >
                   <SelectTrigger className={showPermissionsError ? "border-red-300 focus:border-red-500" : ""}>
@@ -180,12 +180,12 @@ export function ApiKeyDialog({ children }: ApiKeyDialogProps) {
 
               <div className="grid gap-2">
                 <Label htmlFor="expiration">Expiration</Label>
-                <Select 
-                  value={expiration} 
+                <Select
+                  value={expiration}
                   onValueChange={(value) => {
                     setExpiration(value)
                     setFieldTouched(prev => ({ ...prev, expiration: true }))
-                  }} 
+                  }}
                   disabled={isSubmitting}
                 >
                   <SelectTrigger className={`${showExpirationError ? "border-red-300 focus:border-red-500" : ""} min-w-[140px]`}>
@@ -205,8 +205,8 @@ export function ApiKeyDialog({ children }: ApiKeyDialogProps) {
             </div>
 
             <div className="flex items-start space-x-2">
-              <Checkbox 
-                id="terms" 
+              <Checkbox
+                id="terms"
                 checked={termsAccepted}
                 onCheckedChange={(checked) => {
                   setTermsAccepted(checked as boolean)
@@ -286,8 +286,8 @@ export function ApiKeyDialog({ children }: ApiKeyDialogProps) {
               <Button variant="outline" onClick={handleClose} disabled={isSubmitting}>
                 Cancel
               </Button>
-              <Button 
-                type="submit" 
+              <Button
+                type="submit"
                 onClick={handleCreateKey}
                 disabled={!isFormValid || isSubmitting}
               >
