@@ -12,7 +12,7 @@ export function WhyIntelAfrica() {
             <h2 className="text-3xl font-bold tracking-tight mb-8">
               Why Intelligence Africa?
             </h2>
-            
+
             {/* Business & Operations Benefits */}
             <div className="space-y-3">
               <h3 className="text-xl font-bold tracking-tight text-primary" style={{ fontFamily: 'Doto, sans-serif' }}>
@@ -36,11 +36,11 @@ export function WhyIntelAfrica() {
 
           {/* Right: Spline 3D Scene - Appears after text on mobile */}
           <div className="lg:col-span-3 relative w-full h-[800px] rounded-lg overflow-hidden order-2">
-            <Script 
-              type="module" 
+            <Script
+              type="module"
               src="https://unpkg.com/@splinetool/viewer@1.9.28/build/spline-viewer.js"
             />
-            <spline-viewer 
+            <spline-viewer
               url="/cloner_cube_binary.spline"
               className="w-full h-full pointer-events-none"
               logo={false}
