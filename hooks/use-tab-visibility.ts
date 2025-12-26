@@ -16,21 +16,26 @@ export interface UseTabVisibilityReturn {
  * // Use isVisible to pause/resume auto-refresh
  */
 export function useTabVisibility(): UseTabVisibilityReturn {
-    const [isVisible, setIsVisible] = useState(!document.hidden)
-    const [visibilityState, setVisibilityState] = useState<DocumentVisibilityState>(
-        document.visibilityState
-    )
+    // Initialize with true for SSR, update on mount
+    const [isVisible, setIsVisible] = useState(true)
+    const [visibilityState, setVisibilityState] = useState<DocumentVisibilityState>('visible')
 
     useEffect(() => {
-        const handleVisibilityChange = () => {
+        // Update initial state once mounted on client
+        if (typeof document !== 'undefined') {
             setIsVisible(!document.hidden)
             setVisibilityState(document.visibilityState)
-        }
 
-        document.addEventListener('visibilitychange', handleVisibilityChange)
+            const handleVisibilityChange = () => {
+                setIsVisible(!document.hidden)
+                setVisibilityState(document.visibilityState)
+            }
 
-        return () => {
-            document.removeEventListener('visibilitychange', handleVisibilityChange)
+            document.addEventListener('visibilitychange', handleVisibilityChange)
+
+            return () => {
+                document.removeEventListener('visibilitychange', handleVisibilityChange)
+            }
         }
     }, [])
 
