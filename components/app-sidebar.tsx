@@ -116,14 +116,14 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
               {data.navMain
                 .filter(item => item.title === "Get Started")
                 .map((item) => (
-                <SidebarMenuItem key={item.title}>
-                  <SidebarMenuButton tooltip={item.title} asChild>
-                    <a href={item.url}>
-                      <span className="font-medium">{item.title}</span>
-                    </a>
-                  </SidebarMenuButton>
-                </SidebarMenuItem>
-              ))}
+                  <SidebarMenuItem key={item.title}>
+                    <SidebarMenuButton tooltip={item.title} asChild>
+                      <a href={item.url}>
+                        <span className="font-medium">{item.title}</span>
+                      </a>
+                    </SidebarMenuButton>
+                  </SidebarMenuItem>
+                ))}
             </SidebarMenu>
             {data.navMain
               .filter(item => item.title === "Get Started" && item.items)
@@ -150,14 +150,14 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
               {data.navMain
                 .filter(item => item.title === "Manage")
                 .map((item) => (
-                <SidebarMenuItem key={item.title}>
-                  <SidebarMenuButton tooltip={item.title} asChild>
-                    <a href={item.url}>
-                      <span className="font-medium">{item.title}</span>
-                    </a>
-                  </SidebarMenuButton>
-                </SidebarMenuItem>
-              ))}
+                  <SidebarMenuItem key={item.title}>
+                    <SidebarMenuButton tooltip={item.title} asChild>
+                      <a href={item.url}>
+                        <span className="font-medium">{item.title}</span>
+                      </a>
+                    </SidebarMenuButton>
+                  </SidebarMenuItem>
+                ))}
             </SidebarMenu>
             {data.navMain
               .filter(item => item.title === "Manage" && item.items)
@@ -184,14 +184,14 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
               {data.navMain
                 .filter(item => !["Get Started", "Manage"].includes(item.title))
                 .map((item) => (
-                <SidebarMenuItem key={item.title}>
-                  <SidebarMenuButton tooltip={item.title} asChild>
-                    <a href={item.url}>
-                      <span className="font-medium">{item.title}</span>
-                    </a>
-                  </SidebarMenuButton>
-                </SidebarMenuItem>
-              ))}
+                  <SidebarMenuItem key={item.title}>
+                    <SidebarMenuButton tooltip={item.title} asChild>
+                      <a href={item.url}>
+                        <span className="font-medium">{item.title}</span>
+                      </a>
+                    </SidebarMenuButton>
+                  </SidebarMenuItem>
+                ))}
             </SidebarMenu>
           </SidebarGroupContent>
         </SidebarGroup>
