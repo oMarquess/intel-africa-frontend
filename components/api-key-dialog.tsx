@@ -28,9 +28,10 @@ import { Badge } from "@/components/ui/badge"
 
 interface ApiKeyDialogProps {
   children: React.ReactNode
+  onKeyCreated?: () => void
 }
 
-export function ApiKeyDialog({ children }: ApiKeyDialogProps) {
+export function ApiKeyDialog({ children, onKeyCreated }: ApiKeyDialogProps) {
   const { getToken } = useAuth()
   const [open, setOpen] = useState(false)
   const [keyName, setKeyName] = useState("")
@@ -86,6 +87,9 @@ export function ApiKeyDialog({ children }: ApiKeyDialogProps) {
       // Set the created key for display
       setCreatedKey(result.secret_key)
 
+      // Call the callback to notify parent component
+      onKeyCreated?.()
+
     } catch (error) {
       console.error('Failed to create API key:', error)
       // Handle error - could show toast or error message
@@ -125,18 +129,18 @@ export function ApiKeyDialog({ children }: ApiKeyDialogProps) {
       <DialogTrigger asChild>
         {children}
       </DialogTrigger>
-      <DialogContent className="sm:max-w-[425px]">
+      <DialogContent className="sm:max-w-[468px]">
         <DialogHeader>
           <DialogTitle>Create new API key</DialogTitle>
-          <DialogDescription>
+          <DialogDescription className="pt-2">
             Generate a new API key for accessing the STT service. Make sure to copy and save your key securely.
           </DialogDescription>
         </DialogHeader>
 
         {!createdKey ? (
-          <div className="grid gap-4 py-4">
-            <div className="grid gap-2">
-              <Label htmlFor="name">Key name</Label>
+          <div className="space-y-6 py-6">
+            <div className="space-y-3">
+              <Label htmlFor="name" className="text-sm font-medium">Key name</Label>
               <Input
                 id="name"
                 placeholder="e.g., Production API, Development Key"
@@ -153,9 +157,9 @@ export function ApiKeyDialog({ children }: ApiKeyDialogProps) {
               )}
             </div>
 
-            <div className="grid grid-cols-2 gap-4">
-              <div className="grid gap-2">
-                <Label htmlFor="permissions">Permissions</Label>
+            <div className="grid grid-cols-2 gap-6">
+              <div className="space-y-3">
+                <Label htmlFor="permissions" className="text-sm font-medium">Permissions</Label>
                 <Select
                   value={permissions}
                   onValueChange={(value) => {
@@ -178,8 +182,8 @@ export function ApiKeyDialog({ children }: ApiKeyDialogProps) {
                 )}
               </div>
 
-              <div className="grid gap-2">
-                <Label htmlFor="expiration">Expiration</Label>
+              <div className="space-y-3">
+                <Label htmlFor="expiration" className="text-sm font-medium">Expiration</Label>
                 <Select
                   value={expiration}
                   onValueChange={(value) => {
@@ -204,50 +208,54 @@ export function ApiKeyDialog({ children }: ApiKeyDialogProps) {
               </div>
             </div>
 
-            <div className="flex items-start space-x-2">
-              <Checkbox
-                id="terms"
-                checked={termsAccepted}
-                onCheckedChange={(checked) => {
-                  setTermsAccepted(checked as boolean)
-                  setFieldTouched(prev => ({ ...prev, terms: true }))
-                }}
-                disabled={isSubmitting}
-                className={showTermsError ? "border-red-300" : ""}
-              />
-              <Label htmlFor="terms" className="text-xs leading-tight">
-                I understand that this API key should be kept secure and not shared publicly
-              </Label>
+            <div className="space-y-3 pt-2">
+              <div className="flex items-start space-x-3">
+                <Checkbox
+                  id="terms"
+                  checked={termsAccepted}
+                  onCheckedChange={(checked) => {
+                    setTermsAccepted(checked as boolean)
+                    setFieldTouched(prev => ({ ...prev, terms: true }))
+                  }}
+                  disabled={isSubmitting}
+                  className={showTermsError ? "border-red-300 mt-1" : "mt-1"}
+                />
+                <Label htmlFor="terms" className="text-sm leading-relaxed">
+                  I understand that this API key should be kept secure and not shared publicly
+                </Label>
+              </div>
+              {showTermsError && (
+                <p className="text-xs text-red-500 ml-7">You must accept the terms to continue</p>
+              )}
             </div>
-            {showTermsError && (
-              <p className="text-xs text-red-500 ml-6">You must accept the terms to continue</p>
-            )}
 
           </div>
         ) : (
-          <div className="grid gap-4 py-4">
-            <div className="space-y-2">
-              <Label>API Key Created</Label>
-              <div className="flex items-center gap-2">
-                <div className="flex-1">
-                  <code className="bg-muted px-3 py-2 rounded text-sm block break-all">
-                    {showKey ? createdKey : createdKey.slice(0, 20) + "••••••••••••••••••••••••••••••••"}
-                  </code>
+          <div className="space-y-6 py-6">
+            <div className="space-y-3">
+              <div className="flex items-center justify-between">
+                <Label>API Key Created</Label>
+                <div className="flex gap-2">
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    onClick={() => setShowKey(!showKey)}
+                  >
+                    {showKey ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
+                  </Button>
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    onClick={handleCopyKey}
+                  >
+                    <Copy className="h-4 w-4" />
+                  </Button>
                 </div>
-                <Button
-                  variant="outline"
-                  size="sm"
-                  onClick={() => setShowKey(!showKey)}
-                >
-                  {showKey ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
-                </Button>
-                <Button
-                  variant="outline"
-                  size="sm"
-                  onClick={handleCopyKey}
-                >
-                  <Copy className="h-4 w-4" />
-                </Button>
+              </div>
+              <div className="w-full">
+                <code className="bg-muted px-3 py-2 rounded text-sm block w-full font-mono text-xs overflow-x-auto whitespace-nowrap">
+                  {showKey ? createdKey : createdKey.slice(0, 20) + "••••••••••••••••••••••••••••••••"}
+                </code>
               </div>
               {copied && (
                 <p className="text-sm text-green-600">API key copied to clipboard!</p>
@@ -260,7 +268,7 @@ export function ApiKeyDialog({ children }: ApiKeyDialogProps) {
               </p>
             </div>
 
-            <div className="grid grid-cols-2 gap-4 text-sm">
+            {/* <div className="grid grid-cols-2 gap-4 text-sm">
               <div>
                 <span className="font-medium">Name:</span> {keyName}
               </div>
@@ -276,7 +284,7 @@ export function ApiKeyDialog({ children }: ApiKeyDialogProps) {
               <div>
                 <span className="font-medium">Created:</span> {new Date().toLocaleDateString()}
               </div>
-            </div>
+            </div> */}
           </div>
         )}
 
