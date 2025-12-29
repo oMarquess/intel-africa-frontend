@@ -25,6 +25,10 @@ const data = {
       url: "#",
       items: [
         {
+          title: "Quickstart",
+          url: "/dashboard/quickstart",
+        },
+        {
           title: "Model",
           url: "/dashboard/model",
         },
