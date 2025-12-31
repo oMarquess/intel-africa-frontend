@@ -63,7 +63,7 @@ export function LandingPageView() {
               <CheckCircleIcon className="text-emerald-500" size={12} />
               Passed
             </PillStatus>
-            Still under construction
+            All most ready
           </Pill>
         </div>
         <div className="flex-1 flex items-center justify-center">
