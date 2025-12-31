@@ -10,6 +10,8 @@ import { Progress } from "@/components/ui/progress"
 import { Alert, AlertDescription } from "@/components/ui/alert"
 import { Upload, FileAudio, Loader2, CheckCircle2, XCircle, Download } from "lucide-react"
 import { cn } from "@/lib/utils"
+import { toast } from "sonner"
+import { Spinner } from "@/components/kibo-ui/spinner"
 
 interface TranscriptionResult {
   text: string
@@ -23,7 +25,7 @@ interface AudioUploadProps {
 
 export function AudioUpload({ onSuccess }: AudioUploadProps) {
   const { getToken } = useAuth()
-  const [selectedModel, setSelectedModel] = useState("intel-okwonkwo")
+  const [selectedModel, setSelectedModel] = useState("intel-griot")
   const [isUploading, setIsUploading] = useState(false)
   const [uploadProgress, setUploadProgress] = useState(0)
   const [result, setResult] = useState<TranscriptionResult | null>(null)
@@ -66,6 +68,7 @@ export function AudioUpload({ onSuccess }: AudioUploadProps) {
       formData.append("model", selectedModel)
 
       const xhr = new XMLHttpRequest()
+      xhr.responseType = "text"
 
       xhr.upload.addEventListener("progress", (e) => {
         if (e.lengthComputable) {
@@ -76,14 +79,22 @@ export function AudioUpload({ onSuccess }: AudioUploadProps) {
 
       const response = await new Promise<Response>((resolve, reject) => {
         xhr.addEventListener("load", () => {
-          resolve(new Response(xhr.response, {
+          const responseText = xhr.responseText || xhr.response
+          resolve(new Response(responseText, {
             status: xhr.status,
             statusText: xhr.statusText,
+            headers: {
+              'Content-Type': xhr.getResponseHeader('Content-Type') || 'application/json'
+            }
           }))
         })
 
         xhr.addEventListener("error", () => {
           reject(new Error("Upload failed"))
+        })
+
+        xhr.addEventListener("timeout", () => {
+          reject(new Error("Upload timeout"))
         })
 
         xhr.open("POST", `${process.env.NEXT_PUBLIC_API_URL}/v1/stt/transcribe`)
@@ -122,10 +133,18 @@ export function AudioUpload({ onSuccess }: AudioUploadProps) {
       setResult(data)
       onSuccess?.(data)
       setSelectedFile(null)
+      
+      toast.success("Transcription completed!", {
+        description: data.duration ? `Duration: ${data.duration.toFixed(1)}s` : "Your audio has been transcribed successfully.",
+      })
     } catch (err) {
       console.error("Upload error:", err)
       const errorMessage = err instanceof Error ? err.message : String(err)
       setError(errorMessage)
+      
+      toast.error("Transcription failed", {
+        description: errorMessage,
+      })
     } finally {
       setIsUploading(false)
       setUploadProgress(0)
@@ -147,59 +166,42 @@ export function AudioUpload({ onSuccess }: AudioUploadProps) {
   }
 
   return (
-    <Card className="border border-dashed shadow-none">
-      <CardHeader>
-        <CardTitle>Upload Audio for Transcription</CardTitle>
-        <CardDescription>
-          Upload an audio file to transcribe using your free trial
-        </CardDescription>
+    <Card className="border shadow-none">
+      <CardHeader className="pb-3">
+        <CardTitle className="text-base">Upload Audio for Transcription</CardTitle>
       </CardHeader>
-      <CardContent className="space-y-6">
-        {/* Model Selection */}
-        <div className="space-y-2">
-          <label className="text-sm font-medium">Model</label>
-          <Select value={selectedModel} onValueChange={setSelectedModel} disabled={isUploading}>
-            <SelectTrigger>
-              <SelectValue />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="intel-okwonkwo">Intel Okwonkwo</SelectItem>
-              <SelectItem value="intel-base">Intel Base</SelectItem>
-            </SelectContent>
-          </Select>
-        </div>
-
-        {/* File Upload Area */}
+      <CardContent className="space-y-4">
+        {/* Compact File Upload Area */}
         <div
           {...getRootProps()}
           className={cn(
-            "border-2 border-dashed rounded-lg p-8 text-center cursor-pointer transition-colors",
+            "border-2 border-dashed rounded-lg p-6 text-center cursor-pointer transition-colors",
             isDragActive && "border-primary bg-primary/5",
             !isDragActive && "border-border hover:border-primary/50",
             isUploading && "opacity-50 cursor-not-allowed"
           )}
         >
           <input {...getInputProps()} />
-          <div className="flex flex-col items-center gap-4">
+          <div className="flex flex-col items-center gap-2">
             {selectedFile ? (
               <>
-                <FileAudio className="w-12 h-12 text-primary" />
+                <FileAudio className="w-8 h-8 text-primary" />
                 <div>
-                  <p className="font-medium">{selectedFile.name}</p>
-                  <p className="text-sm text-muted-foreground">
+                  <p className="text-sm font-medium">{selectedFile.name}</p>
+                  <p className="text-xs text-muted-foreground">
                     {(selectedFile.size / 1024 / 1024).toFixed(2)} MB
                   </p>
                 </div>
               </>
             ) : (
               <>
-                <Upload className="w-12 h-12 text-muted-foreground" />
+                <Upload className="w-8 h-8 text-muted-foreground" />
                 <div>
-                  <p className="font-medium">
-                    {isDragActive ? "Drop the file here" : "Drag & drop audio file here"}
+                  <p className="text-sm font-medium">
+                    {isDragActive ? "Drop file here" : "Drop audio or click to browse"}
                   </p>
-                  <p className="text-sm text-muted-foreground">
-                    or click to browse (MP3, WAV, M4A, OGG, FLAC, AAC)
+                  <p className="text-xs text-muted-foreground">
+                    MP3, WAV, M4A, OGG, FLAC, AAC
                   </p>
                 </div>
               </>
@@ -207,73 +209,84 @@ export function AudioUpload({ onSuccess }: AudioUploadProps) {
           </div>
         </div>
 
-        {/* Upload Progress */}
+        {/* Inline Model Selection + Upload Button */}
+        <div className="flex gap-2">
+          <Select value={selectedModel} onValueChange={setSelectedModel} disabled={isUploading}>
+            <SelectTrigger className="w-[180px]">
+              <SelectValue />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="intel-griot">Intel Griot</SelectItem>
+            </SelectContent>
+          </Select>
+          
+          <Button
+            onClick={handleUpload}
+            disabled={!selectedFile || isUploading}
+            className="flex-1"
+            size="default"
+          >
+            {isUploading ? (
+              <>
+                <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+                Transcribing...
+              </>
+            ) : (
+              <>
+                <Upload className="w-4 h-4 mr-2" />
+                Transcribe
+              </>
+            )}
+          </Button>
+        </div>
+
+        {/* Spinner Loader */}
         {isUploading && (
-          <div className="space-y-2">
-            <div className="flex items-center justify-between text-sm">
-              <span className="text-muted-foreground">Uploading and transcribing...</span>
-              <span className="font-medium">{Math.round(uploadProgress)}%</span>
+          <div className="flex items-center justify-center py-4">
+            <div className="flex items-center gap-2">
+              <p className="text-sm text-muted-foreground">Transcribing your audio</p>
+              <Spinner variant="ellipsis" size="md" />
             </div>
-            <Progress value={uploadProgress} />
           </div>
         )}
 
         {/* Error Message */}
         {error && (
-          <Alert variant="destructive">
+          <Alert variant="destructive" className="py-2">
             <XCircle className="h-4 w-4" />
-            <AlertDescription>{error}</AlertDescription>
+            <AlertDescription className="text-sm">{error}</AlertDescription>
           </Alert>
         )}
 
-        {/* Success Result */}
+        {/* Success + Transcription Result */}
         {result && (
-          <Alert className="border-green-200 bg-green-50 dark:border-green-800 dark:bg-green-950">
-            <CheckCircle2 className="h-4 w-4 text-green-600 dark:text-green-400" />
-            <AlertDescription className="text-green-800 dark:text-green-200">
-              Transcription completed!{result.duration ? ` Duration: ${result.duration.toFixed(2)}s` : ''}
-            </AlertDescription>
-          </Alert>
-        )}
-
-        {/* Transcription Result */}
-        {result && (
-          <div className="space-y-3">
-            <div className="flex items-center justify-between">
-              <label className="text-sm font-medium">Transcription</label>
-              <Button
-                variant="outline"
-                size="sm"
-                onClick={downloadTranscription}
-              >
-                <Download className="w-4 h-4 mr-2" />
-                Download
-              </Button>
-            </div>
-            <div className="p-4 bg-muted rounded-lg">
-              <p className="text-sm whitespace-pre-wrap">{result.text}</p>
+          <div className="space-y-2">
+            <Alert className="border-green-200 bg-green-50 dark:border-green-800 dark:bg-green-950 py-2">
+              <CheckCircle2 className="h-4 w-4 text-green-600 dark:text-green-400" />
+              <AlertDescription className="text-sm text-green-800 dark:text-green-200">
+                Complete!{result.duration ? ` ${result.duration.toFixed(1)}s` : ''}
+              </AlertDescription>
+            </Alert>
+            
+            <div className="space-y-2">
+              <div className="flex items-center justify-between">
+                <label className="text-xs font-medium text-muted-foreground">TRANSCRIPTION</label>
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  onClick={downloadTranscription}
+                  className="h-7 text-xs"
+                >
+                  <Download className="w-3 h-3 mr-1" />
+                  Download
+                </Button>
+              </div>
+              <div className="p-3 bg-muted rounded-lg max-h-[200px] overflow-y-auto">
+                <p className="text-sm whitespace-pre-wrap">{result.text}</p>
+              </div>
             </div>
           </div>
         )}
-
-        {/* Upload Button */}
-        <Button
-          onClick={handleUpload}
-          disabled={!selectedFile || isUploading}
-          className="w-full"
-        >
-          {isUploading ? (
-            <>
-              <Loader2 className="w-4 h-4 mr-2 animate-spin" />
-              Transcribing...
-            </>
-          ) : (
-            <>
-              <Upload className="w-4 h-4 mr-2" />
-              Upload & Transcribe
-            </>
-          )}
-        </Button>
       </CardContent>
     </Card>
   )
