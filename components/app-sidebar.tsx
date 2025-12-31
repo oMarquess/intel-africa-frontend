@@ -25,8 +25,8 @@ const data = {
       url: "#",
       items: [
         {
-          title: "Model",
-          url: "/dashboard/model",
+          title: "Quickstart",
+          url: "/dashboard/quickstart",
         },
       ],
     },
@@ -72,7 +72,7 @@ const data = {
     },
     {
       title: "Billing",
-      url: "/dashboard/billing",
+      url: "/coming-soon",
     },
   ],
   // documents: [
@@ -101,8 +101,12 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
               asChild
               className="data-[slot=sidebar-menu-button]:!p-1.5"
             >
-              <a href="/dashboard">
-                <span className="text-base font-semibold">Intel Africa</span>
+              <a href="/dashboard" className="flex items-center">
+                <img 
+                  src="/Asset 2.svg" 
+                  alt="Intel Africa" 
+                  className="h-5 w-auto dark:invert-0 invert"
+                />
               </a>
             </SidebarMenuButton>
           </SidebarMenuItem>

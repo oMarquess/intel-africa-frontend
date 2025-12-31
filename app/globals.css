@@ -171,3 +171,69 @@
 .animate-ripple {
   animation: ripple var(--duration, 2s) ease calc(var(--i, 0) * 0.2s) infinite;
 }
+
+/* Background Gradient Animation keyframes */
+@keyframes first {
+  0%, 100% {
+    transform: rotate(0deg);
+  }
+  50% {
+    transform: rotate(180deg);
+  }
+}
+
+@keyframes second {
+  0%, 100% {
+    transform: rotate(0deg);
+  }
+  50% {
+    transform: rotate(240deg);
+  }
+}
+
+@keyframes third {
+  0%, 100% {
+    transform: rotate(0deg);
+  }
+  50% {
+    transform: rotate(300deg);
+  }
+}
+
+@keyframes fourth {
+  0%, 100% {
+    transform: rotate(0deg);
+  }
+  50% {
+    transform: rotate(120deg);
+  }
+}
+
+@keyframes fifth {
+  0%, 100% {
+    transform: rotate(0deg);
+  }
+  50% {
+    transform: rotate(60deg);
+  }
+}
+
+.animate-first {
+  animation: first 20s ease-in-out infinite;
+}
+
+.animate-second {
+  animation: second 25s ease-in-out infinite;
+}
+
+.animate-third {
+  animation: third 30s ease-in-out infinite;
+}
+
+.animate-fourth {
+  animation: fourth 22s ease-in-out infinite;
+}
+
+.animate-fifth {
+  animation: fifth 28s ease-in-out infinite;
+}

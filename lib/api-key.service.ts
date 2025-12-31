@@ -121,7 +121,7 @@ export class ApiKeyService {
    */
   async listApiKeys(token: string): Promise<ApiKeyListResponse> {
     try {
-      const response = await fetch(`${this.baseUrl}/api-key/list`, {
+      const response = await fetch(`${this.baseUrl}/api-key`, {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',

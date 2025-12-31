@@ -73,22 +73,22 @@ export function UsageChart({ data, isLoading }: UsageChartProps) {
                     <div className="h-[300px] w-full">
                         <ResponsiveContainer width="100%" height="100%">
                             <BarChart data={chartData} margin={{ top: 10, right: 10, left: -20, bottom: 0 }}>
-                                <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="hsl(var(--muted))" />
+                                <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="var(--muted)" />
                                 <XAxis
                                     dataKey="name"
                                     axisLine={false}
                                     tickLine={false}
-                                    tick={{ fill: 'hsl(var(--muted-foreground))', fontSize: 12 }}
+                                    tick={{ fill: 'var(--muted-foreground)', fontSize: 12 }}
                                     dy={10}
                                 />
                                 <YAxis
                                     axisLine={false}
                                     tickLine={false}
-                                    tick={{ fill: 'hsl(var(--muted-foreground))', fontSize: 12 }}
+                                    tick={{ fill: 'var(--muted-foreground)', fontSize: 12 }}
                                     tickFormatter={(val) => metric === 'audio' ? `${val}s` : val.toString()}
                                 />
                                 <Tooltip
-                                    cursor={{ fill: 'hsl(var(--muted)/0.1)', radius: 4 }}
+                                    cursor={false}
                                     content={({ active, payload, label }) => {
                                         if (active && payload && payload.length) {
                                             const val = payload[0].value as number
@@ -112,8 +112,9 @@ export function UsageChart({ data, isLoading }: UsageChartProps) {
                                 />
                                 <Bar
                                     dataKey={metric}
-                                    fill="hsl(var(--primary))"
+                                    fill="var(--primary)"
                                     radius={[4, 4, 0, 0]}
+                                    maxBarSize={50}
                                     animationDuration={1000}
                                 />
                             </BarChart>

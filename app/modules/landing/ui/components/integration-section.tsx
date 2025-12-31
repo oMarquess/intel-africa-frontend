@@ -1,39 +1,92 @@
 'use client';
 
-import { useState } from 'react';
 import { motion } from 'motion/react';
-import { Check, Copy, Terminal } from 'lucide-react';
+import { Terminal } from 'lucide-react';
+import { BackgroundGradientAnimation } from '@/components/ui/shadcn-io/background-gradient-animation';
+import type { BundledLanguage } from '@/components/kibo-ui/code-block';
+import {
+  CodeBlock,
+  CodeBlockBody,
+  CodeBlockContent,
+  CodeBlockCopyButton,
+  CodeBlockHeader,
+  CodeBlockItem,
+  CodeBlockSelect,
+  CodeBlockSelectContent,
+  CodeBlockSelectItem,
+  CodeBlockSelectTrigger,
+  CodeBlockSelectValue,
+} from '@/components/kibo-ui/code-block';
 
-const CODE_SNIPPET = `import dlp_ai
-
-# Initialize the client
-client = dlp_ai.Client(api_key="dlp_rw_...")
+const codeExamples = [
+  {
+    language: "python",
+    filename: "example.py",
+    code: `import requests
 
 # Transcribe African audio with native precision
-response = client.audio.transcribe(
-    file="swahili_meeting_recording.mp3",
-    model="whisper-v3-africa",
-    language="sw"
-)
+with open("swahili_meeting_recording.mp3", "rb") as audio_file:
+    response = requests.post(
+        "https://api.intelafrica.com/v1/stt/transcribe",
+        headers={"Authorization": "Bearer YOUR_API_KEY"},
+        files={"file": audio_file},
+        data={"model": "intel-griot"}
+    )
 
 # Access accurate, localized text
-print(response.text)
-# Output: "Habari za asubuhi, karibuni kwenye mkutano..."
-`;
+result = response.json()
+print(result["text"])
+# Output: "Habari za asubuhi, karibuni kwenye mkutano..."`,
+  },
+  {
+    language: "javascript",
+    filename: "example.js",
+    code: `const formData = new FormData()
+formData.append("file", audioFile)
+formData.append("model", "intel-griot")
+
+const response = await fetch(
+  "https://api.intelafrica.com/v1/stt/transcribe",
+  {
+    method: "POST",
+    headers: {
+      "Authorization": "Bearer YOUR_API_KEY"
+    },
+    body: formData
+  }
+)
+
+const data = await response.json()
+console.log(data.text)
+// Output: "Habari za asubuhi, karibuni kwenye mkutano..."`,
+  },
+  {
+    language: "bash",
+    filename: "curl",
+    code: `curl https://api.intelafrica.com/v1/stt/transcribe \\
+  -H "Authorization: Bearer YOUR_API_KEY" \\
+  -F "file=@swahili_meeting.mp3" \\
+  -F "model=intel-griot"`,
+  },
+];
 
 export function IntegrationSection() {
-    const [copied, setCopied] = useState(false);
-
-    const handleCopy = () => {
-        navigator.clipboard.writeText(CODE_SNIPPET);
-        setCopied(true);
-        setTimeout(() => setCopied(false), 2000);
-    };
 
     return (
-        <section className="w-full py-24 bg-zinc-950 text-white overflow-hidden relative">
-            {/* Dynamic Background Glow */}
-            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[600px] bg-primary/20 blur-[120px] rounded-full pointer-events-none opacity-50" />
+        <section className="w-full py-24 text-white overflow-hidden relative">
+            <BackgroundGradientAnimation
+                gradientBackgroundStart="rgb(15, 23, 42)"
+                gradientBackgroundEnd="rgb(0, 0, 0)"
+                firstColor="18, 113, 255"
+                secondColor="221, 74, 255"
+                thirdColor="100, 220, 255"
+                fourthColor="200, 50, 50"
+                fifthColor="180, 180, 50"
+                pointerColor="140, 100, 255"
+                blendingValue="hard-light"
+                interactive={true}
+                containerClassName="!absolute inset-0 !h-full !w-full"
+            />
 
             <div className="container mx-auto px-4 relative z-10">
                 <motion.div
@@ -56,62 +109,46 @@ export function IntegrationSection() {
                                 <span className="text-zinc-400">Scale globally.</span>
                             </h2>
 
-                            <p className="text-lg text-zinc-400 max-w-lg leading-relaxed">
+                            <p className="text-lg text-white/90 max-w-lg leading-relaxed drop-shadow-lg">
                                 Our APIs are designed for simplicity. Drop few lines of code into your Python, Node, or Go application and instantly unlock high-fidelity African voice intelligence.
                             </p>
 
                             <div className="flex gap-4">
-                                <button className="px-6 py-3 bg-white text-black font-semibold rounded-lg hover:bg-zinc-200 transition-colors">
+                                <a href="/coming-soon" className="px-6 py-3 bg-white text-black font-semibold rounded-lg hover:bg-zinc-200 transition-colors inline-block">
                                     Read Documentation
-                                </button>
+                                </a>
                               
                             </div>
                         </div>
 
                         {/* Right Column: Code Demo */}
                         <div className="flex-1 w-full max-w-2xl">
-                            <div className="relative rounded-xl bg-zinc-900 border border-zinc-800 shadow-2xl overflow-hidden">
-
-                                {/* Window Header */}
-                                <div className="flex items-center justify-between px-4 py-3 bg-zinc-900 border-b border-zinc-800">
-                                    <div className="flex gap-2">
-                                        <div className="w-3 h-3 rounded-full bg-red-500/80" />
-                                        <div className="w-3 h-3 rounded-full bg-yellow-500/80" />
-                                        <div className="w-3 h-3 rounded-full bg-green-500/80" />
-                                    </div>
-                                    <div className="text-xs text-zinc-500 font-mono">example.py</div>
-                                    <div className="w-8" /> {/* Spacer for centering */}
-                                </div>
-
-                                {/* Code Content */}
-                                <div className="p-6 overflow-x-auto">
-                                    <pre className="font-mono text-sm text-zinc-300 leading-relaxed">
-                                        <code>
-                                            <span className="text-purple-400">import</span> dlp_ai{'\n\n'}
-                                            <span className="text-zinc-500"># Initialize the client</span>{'\n'}
-                                            client = dlp_ai.Client(api_key=<span className="text-yellow-300">"dlp_rw_..."</span>){'\n\n'}
-                                            <span className="text-zinc-500"># Transcribe African audio with native precision</span>{'\n'}
-                                            response = client.audio.transcribe({'\n'}
-                                            {'    '}file=<span className="text-green-400">"swahili_meeting.mp3"</span>,{'\n'}
-                                            {'    '}model=<span className="text-green-400">"whisper-v3-africa"</span>,{'\n'}
-                                            {'    '}language=<span className="text-green-400">"sw"</span>{'\n'}
-                                            ){'\n\n'}
-                                            <span className="text-zinc-500"># Access accurate, localized text</span>{'\n'}
-                                            <span className="text-blue-400">print</span>(response.text){'\n'}
-                                            <span className="text-zinc-500"># Output: "Habari za asubuhi, karibuni kwenye mkutano..."</span>
-                                        </code>
-                                    </pre>
-                                </div>
-
-                                {/* Copy Button */}
-                                <button
-                                    onClick={handleCopy}
-                                    className="absolute top-14 right-4 p-2 rounded-lg bg-zinc-800 hover:bg-zinc-700 text-zinc-400 hover:text-white transition-all"
-                                    aria-label="Copy code"
-                                >
-                                    {copied ? <Check className="w-4 h-4 text-green-500" /> : <Copy className="w-4 h-4" />}
-                                </button>
-                            </div>
+                            <CodeBlock data={codeExamples} defaultValue={codeExamples[0].language} className="[&_.text-foreground]:!text-white [&_.text-muted-foreground]:!text-white [&_button]:!text-white [&_svg]:!text-white">
+                                <CodeBlockHeader>
+                                    <CodeBlockSelect>
+                                        <CodeBlockSelectTrigger>
+                                            <CodeBlockSelectValue />
+                                        </CodeBlockSelectTrigger>
+                                        <CodeBlockSelectContent>
+                                            {(item) => (
+                                                <CodeBlockSelectItem key={item.language} value={item.language}>
+                                                    {item.language}
+                                                </CodeBlockSelectItem>
+                                            )}
+                                        </CodeBlockSelectContent>
+                                    </CodeBlockSelect>
+                                    <CodeBlockCopyButton />
+                                </CodeBlockHeader>
+                                <CodeBlockBody>
+                                    {(item) => (
+                                        <CodeBlockItem key={item.language} value={item.language}>
+                                            <CodeBlockContent language={item.language as BundledLanguage}>
+                                                {item.code}
+                                            </CodeBlockContent>
+                                        </CodeBlockItem>
+                                    )}
+                                </CodeBlockBody>
+                            </CodeBlock>
                         </div>
 
                     </div>

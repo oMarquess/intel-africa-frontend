@@ -19,16 +19,16 @@ export function Footer() {
               AI-powered speech intelligence built for Africa. Transform voice data into actionable insights.
             </p>
             <div className="flex gap-4">
-              <Link href="#" className="text-gray-600 hover:text-[#ca6441] transition-colors">
+              <Link href="/coming-soon" className="text-gray-600 hover:text-[#ca6441] transition-colors">
                 <Twitter className="w-5 h-5" />
               </Link>
-              <Link href="#" className="text-gray-600 hover:text-[#ca6441] transition-colors">
+              <Link href="/coming-soon" className="text-gray-600 hover:text-[#ca6441] transition-colors">
                 <Linkedin className="w-5 h-5" />
               </Link>
-              <Link href="#" className="text-gray-600 hover:text-[#ca6441] transition-colors">
+              <Link href="/coming-soon" className="text-gray-600 hover:text-[#ca6441] transition-colors">
                 <Github className="w-5 h-5" />
               </Link>
-              <Link href="#" className="text-gray-600 hover:text-[#ca6441] transition-colors">
+              <Link href="/coming-soon" className="text-gray-600 hover:text-[#ca6441] transition-colors">
                 <Mail className="w-5 h-5" />
               </Link>
             </div>
@@ -39,27 +39,27 @@ export function Footer() {
             <h4 className="font-semibold mb-4">Product</h4>
             <ul className="space-y-2 text-sm">
               <li>
-                <Link href="#" className="text-gray-600 hover:text-[#ca6441] transition-colors">
+                <Link href="/coming-soon" className="text-gray-600 hover:text-[#ca6441] transition-colors">
                   Features
                 </Link>
               </li>
               <li>
-                <Link href="#" className="text-gray-600 hover:text-[#ca6441] transition-colors">
+                <Link href="/coming-soon" className="text-gray-600 hover:text-[#ca6441] transition-colors">
                   Pricing
                 </Link>
               </li>
               <li>
-                <Link href="#" className="text-gray-600 hover:text-[#ca6441] transition-colors">
+                <Link href="/coming-soon" className="text-gray-600 hover:text-[#ca6441] transition-colors">
                   API Documentation
                 </Link>
               </li>
               <li>
-                <Link href="#" className="text-gray-600 hover:text-[#ca6441] transition-colors">
+                <Link href="/coming-soon" className="text-gray-600 hover:text-[#ca6441] transition-colors">
                   Integrations
                 </Link>
               </li>
               <li>
-                <Link href="#" className="text-gray-600 hover:text-[#ca6441] transition-colors">
+                <Link href="/coming-soon" className="text-gray-600 hover:text-[#ca6441] transition-colors">
                   Use Cases
                 </Link>
               </li>
@@ -71,27 +71,27 @@ export function Footer() {
             <h4 className="font-semibold mb-4">Legal</h4>
             <ul className="space-y-2 text-sm">
               <li>
-                <Link href="#" className="text-gray-600 hover:text-[#ca6441] transition-colors">
+                <Link href="/coming-soon" className="text-gray-600 hover:text-[#ca6441] transition-colors">
                   Privacy Policy
                 </Link>
               </li>
               <li>
-                <Link href="#" className="text-gray-600 hover:text-[#ca6441] transition-colors">
+                <Link href="/coming-soon" className="text-gray-600 hover:text-[#ca6441] transition-colors">
                   Terms of Service
                 </Link>
               </li>
               <li>
-                <Link href="#" className="text-gray-600 hover:text-[#ca6441] transition-colors">
+                <Link href="/coming-soon" className="text-gray-600 hover:text-[#ca6441] transition-colors">
                   Cookie Policy
                 </Link>
               </li>
               <li>
-                <Link href="#" className="text-gray-600 hover:text-[#ca6441] transition-colors">
+                <Link href="/coming-soon" className="text-gray-600 hover:text-[#ca6441] transition-colors">
                   Security
                 </Link>
               </li>
               <li>
-                <Link href="#" className="text-gray-600 hover:text-[#ca6441] transition-colors">
+                <Link href="/coming-soon" className="text-gray-600 hover:text-[#ca6441] transition-colors">
                   Compliance
                 </Link>
               </li>
@@ -106,13 +106,13 @@ export function Footer() {
               © {currentYear} Intel Africa. All rights reserved.
             </p>
             <div className="flex gap-6 text-sm">
-              <Link href="#" className="text-gray-600 hover:text-[#ca6441] transition-colors">
+              <Link href="/coming-soon" className="text-gray-600 hover:text-[#ca6441] transition-colors">
                 Status
               </Link>
-              <Link href="#" className="text-gray-600 hover:text-[#ca6441] transition-colors">
+              <Link href="/coming-soon" className="text-gray-600 hover:text-[#ca6441] transition-colors">
                 Changelog
               </Link>
-              <Link href="#" className="text-gray-600 hover:text-[#ca6441] transition-colors">
+              <Link href="/coming-soon" className="text-gray-600 hover:text-[#ca6441] transition-colors">
                 Support
               </Link>
             </div>

@@ -35,11 +35,12 @@ export function Navbar() {
             <div className="px-6">
                 <div className="flex items-center justify-between h-12">
                     {/* Logo */}
-                    <a href="/" className="flex items-center gap-2">
-                        <div className="w-8 h-8 bg-primary rounded-lg flex items-center justify-center">
-                            <span className="text-primary-foreground font-bold text-lg">IA</span>
-                        </div>
-                        <span className="font-bold text-lg hidden sm:block">Intel Africa</span>
+                    <a href="/" className="flex items-center">
+                        <img 
+                            src="/Asset 2.svg" 
+                            alt="Intel Africa" 
+                            className="h-6 w-auto invert"
+                        />
                     </a>
 
                     {/* Desktop Navigation */}

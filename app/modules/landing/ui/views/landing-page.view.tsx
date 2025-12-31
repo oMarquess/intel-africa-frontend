@@ -1,6 +1,6 @@
 'use client';
 
-import { useRef } from 'react';
+import { useRef, useEffect } from 'react';
 import { motion, useScroll, useTransform } from 'motion/react';
 import { LandingBanner } from '../components/landing-banner';
 import { Ripple } from "@/components/ui/shadcn-io/ripple";
@@ -31,6 +31,20 @@ export function LandingPageView() {
 
   // Background moves slower (parallax effect)
   const bgY = useTransform(scrollYProgress, [0, 1], [0, -100]);
+
+  // Force light mode on landing page
+  useEffect(() => {
+    const htmlElement = document.documentElement;
+    const originalClass = htmlElement.className;
+    
+    // Remove dark class and force light mode
+    htmlElement.classList.remove('dark');
+    
+    // Cleanup: restore original class when component unmounts
+    return () => {
+      htmlElement.className = originalClass;
+    };
+  }, []);
 
   return (
     <div className="min-h-screen">
