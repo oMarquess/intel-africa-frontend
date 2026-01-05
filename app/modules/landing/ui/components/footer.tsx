@@ -13,7 +13,7 @@ export function Footer() {
           {/* Company Info */}
           <div>
             <h3 className="font-bold text-lg mb-4" style={{ fontFamily: 'Doto, sans-serif' }}>
-              Intel Africa
+              Intelligence Africa
             </h3>
             <p className="text-gray-600 text-sm mb-4">
               AI-powered speech intelligence built for Africa. Transform voice data into actionable insights.
@@ -103,7 +103,7 @@ export function Footer() {
         <div className="pt-8 border-t">
           <div className="flex flex-col md:flex-row justify-between items-center gap-4">
             <p className="text-sm text-gray-600">
-              © {currentYear} Intel Africa. All rights reserved.
+              © {currentYear} Intelligence Africa. All rights reserved.
             </p>
             <div className="flex gap-6 text-sm">
               <Link href="/coming-soon" className="text-gray-600 hover:text-[#ca6441] transition-colors">

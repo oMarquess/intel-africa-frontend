@@ -198,10 +198,15 @@ export default function Page() {
                     </Card>
 
                     <div className="flex justify-center py-6">
-                      <img 
-                        src="/Asset 2.svg" 
-                        alt="Intel Africa" 
-                        className="h-8 w-auto dark:invert-0 invert opacity-50"
+                      <img
+                        src="/Asset-4.svg"
+                        alt="Intelligence Africa"
+                        className="h-8 w-auto opacity-50 md:hidden"
+                      />
+                      <img
+                        src="/Asset-3.svg"
+                        alt="Intelligence Africa"
+                        className="h-8 w-auto opacity-50 hidden md:block"
                       />
                     </div>
                   </div>
