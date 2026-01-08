@@ -8,6 +8,7 @@ import {
 } from "@/components/ui/sidebar"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { AudioUpload } from "@/components/audio-upload"
+import { TrialUsageBadge } from "@/components/trial-usage-badge"
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
@@ -47,6 +48,9 @@ export default function Page() {
 
                     {/* Quick Links */}
                     <div className="sticky top-4 space-y-3">
+                      {/* Trial Usage Badge */}
+                      {/* <TrialUsageBadge /> */}
+
                       <div className="rounded-lg border bg-card p-4 shadow-sm">
                         <h2 className="text-base font-semibold mb-3">Quick Links</h2>
                         <div className="flex flex-col space-y-2">
