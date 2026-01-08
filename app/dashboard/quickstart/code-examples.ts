@@ -2,48 +2,47 @@ export const codeExamples = [
   {
     language: "bash",
     filename: "curl",
-    code: `curl https://api.intelafrica.com/v1/generate \\
-  -H "Authorization: Bearer YOUR_API_KEY" \\
-  -H "Content-Type: application/json" \\
-  -d '{
-    "model": "gpt-5.2",
-    "input": "Write a short bedtime story about a unicorn."
-  }'`,
+    code: `curl -X POST "https://api.intelligenceafrica.com/v1/stt/transcribe" \\
+  -H "x-api-key: YOUR_API_KEY" \\
+  -F "file=@audio.mp3" \\
+  -F "model=intel-griot"`,
   },
   {
     language: "python",
     filename: "python",
     code: `import requests
 
-response = requests.post(
-    "https://api.intelafrica.com/v1/generate",
-    headers={
-        "Authorization": "Bearer YOUR_API_KEY",
-        "Content-Type": "application/json"
-    },
-    json={
-        "model": "gpt-5.2",
-        "input": "Write a short bedtime story about a unicorn."
-    }
-)
+with open("audio.mp3", "rb") as audio_file:
+    response = requests.post(
+        "https://api.intelligenceafrica.com/v1/stt/transcribe",
+        headers={
+            "x-api-key": "YOUR_API_KEY"
+        },
+        files={
+            "file": audio_file
+        },
+        data={
+            "model": "intel-griot"
+        }
+    )
 
 print(response.json())`,
   },
   {
     language: "javascript",
     filename: "javascript",
-    code: `const response = await fetch(
-  "https://api.intelafrica.com/v1/generate",
+    code: `const formData = new FormData()
+formData.append("file", audioFile) // audioFile is a File object
+formData.append("model", "intel-griot")
+
+const response = await fetch(
+  "https://api.intelligenceafrica.com/v1/stt/transcribe",
   {
     method: "POST",
     headers: {
-      "Authorization": "Bearer YOUR_API_KEY",
-      "Content-Type": "application/json"
+      "x-api-key": "YOUR_API_KEY"
     },
-    body: JSON.stringify({
-      model: "gpt-5.2",
-      input: "Write a short bedtime story about a unicorn."
-    })
+    body: formData
   }
 )
 
@@ -53,27 +52,28 @@ console.log(data)`,
   {
     language: "typescript",
     filename: "typescript",
-    code: `interface ApiResponse {
-  result: string;
-  model: string;
+    code: `interface TranscriptionResponse {
+  text: string;
+  language?: string;
+  duration?: number;
 }
 
+const formData = new FormData()
+formData.append("file", audioFile) // audioFile is a File object
+formData.append("model", "intel-griot")
+
 const response = await fetch(
-  "https://api.intelafrica.com/v1/generate",
+  "https://api.intelligenceafrica.com/v1/stt/transcribe",
   {
     method: "POST",
     headers: {
-      "Authorization": "Bearer YOUR_API_KEY",
-      "Content-Type": "application/json"
+      "x-api-key": "YOUR_API_KEY"
     },
-    body: JSON.stringify({
-      model: "gpt-5.2",
-      input: "Write a short bedtime story about a unicorn."
-    })
+    body: formData
   }
 )
 
-const data: ApiResponse = await response.json()
+const data: TranscriptionResponse = await response.json()
 console.log(data)`,
   },
   {
@@ -83,32 +83,38 @@ console.log(data)`,
 
 import (
     "bytes"
-    "encoding/json"
     "fmt"
+    "io"
+    "mime/multipart"
     "net/http"
+    "os"
 )
 
 func main() {
-    url := "https://api.intelafrica.com/v1/generate"
+    url := "https://api.intelligenceafrica.com/v1/stt/transcribe"
     
-    payload := map[string]string{
-        "model": "gpt-5.2",
-        "input": "Write a short bedtime story about a unicorn.",
-    }
+    file, _ := os.Open("audio.mp3")
+    defer file.Close()
     
-    jsonData, _ := json.Marshal(payload)
+    body := &bytes.Buffer{}
+    writer := multipart.NewWriter(body)
     
-    req, _ := http.NewRequest("POST", url, bytes.NewBuffer(jsonData))
-    req.Header.Set("Authorization", "Bearer YOUR_API_KEY")
-    req.Header.Set("Content-Type", "application/json")
+    part, _ := writer.CreateFormFile("file", "audio.mp3")
+    io.Copy(part, file)
+    
+    writer.WriteField("model", "intel-griot")
+    writer.Close()
+    
+    req, _ := http.NewRequest("POST", url, body)
+    req.Header.Set("x-api-key", "YOUR_API_KEY")
+    req.Header.Set("Content-Type", writer.FormDataContentType())
     
     client := &http.Client{}
     resp, _ := client.Do(req)
     defer resp.Body.Close()
     
-    var result map[string]interface{}
-    json.NewDecoder(resp.Body).Decode(&result)
-    fmt.Println(result)
+    result, _ := io.ReadAll(resp.Body)
+    fmt.Println(string(result))
 }`,
   },
   {
@@ -116,45 +122,46 @@ func main() {
     filename: "php",
     code: `<?php
 
-$url = "https://api.intelafrica.com/v1/generate";
+$url = "https://api.intelligenceafrica.com/v1/stt/transcribe";
 
-$data = array(
-    "model" => "gpt-5.2",
-    "input" => "Write a short bedtime story about a unicorn."
-);
+$curl = curl_init();
 
-$options = array(
-    'http' => array(
-        'header'  => "Content-Type: application/json\\r\\n" .
-                     "Authorization: Bearer YOUR_API_KEY\\r\\n",
-        'method'  => 'POST',
-        'content' => json_encode($data)
+curl_setopt_array($curl, array(
+    CURLOPT_URL => $url,
+    CURLOPT_RETURNTRANSFER => true,
+    CURLOPT_POST => true,
+    CURLOPT_HTTPHEADER => array(
+        "x-api-key: YOUR_API_KEY"
+    ),
+    CURLOPT_POSTFIELDS => array(
+        'file' => new CURLFile('audio.mp3'),
+        'model' => 'intel-griot'
     )
-);
+));
 
-$context  = stream_context_create($options);
-$result = file_get_contents($url, false, $context);
+$response = curl_exec($curl);
+curl_close($curl);
 
-echo $result;
+echo $response;
 ?>`,
   },
   {
     language: "ruby",
     filename: "ruby",
     code: `require 'net/http'
-require 'json'
 require 'uri'
 
-uri = URI.parse("https://api.intelafrica.com/v1/generate")
+uri = URI.parse("https://api.intelligenceafrica.com/v1/stt/transcribe")
 
 request = Net::HTTP::Post.new(uri)
-request.content_type = "application/json"
-request["Authorization"] = "Bearer YOUR_API_KEY"
+request["x-api-key"] = "YOUR_API_KEY"
 
-request.body = JSON.dump({
-  "model" => "gpt-5.2",
-  "input" => "Write a short bedtime story about a unicorn."
-})
+form_data = [
+  ['file', File.open('audio.mp3')],
+  ['model', 'intel-griot']
+]
+
+request.set_form(form_data, 'multipart/form-data')
 
 response = Net::HTTP.start(uri.hostname, uri.port, use_ssl: true) do |http|
   http.request(request)
@@ -169,23 +176,20 @@ puts response.body`,
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.net.URI;
+import java.nio.file.Path;
 
-public class ApiExample {
+public class TranscriptionExample {
     public static void main(String[] args) throws Exception {
         HttpClient client = HttpClient.newHttpClient();
         
-        String json = """
-            {
-                "model": "gpt-5.2",
-                "input": "Write a short bedtime story about a unicorn."
-            }
-            """;
+        String boundary = "----WebKitFormBoundary7MA4YWxkTrZu0gW";
+        Path audioPath = Path.of("audio.mp3");
         
         HttpRequest request = HttpRequest.newBuilder()
-            .uri(URI.create("https://api.intelafrica.com/v1/generate"))
-            .header("Authorization", "Bearer YOUR_API_KEY")
-            .header("Content-Type", "application/json")
-            .POST(HttpRequest.BodyPublishers.ofString(json))
+            .uri(URI.create("https://api.intelligenceafrica.com/v1/stt/transcribe"))
+            .header("x-api-key", "YOUR_API_KEY")
+            .header("Content-Type", "multipart/form-data; boundary=" + boundary)
+            .POST(HttpRequest.BodyPublishers.ofFile(audioPath))
             .build();
         
         HttpResponse<String> response = client.send(request, 
