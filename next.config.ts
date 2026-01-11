@@ -10,7 +10,7 @@ const nextConfig: NextConfig = {
     return [
       {
         source: '/api/py/:path*',
-        destination: process.env.BACKEND_URL || 'http://102.22.14.237:8010/:path*',
+        destination: process.env.BACKEND_URL || 'https://intel-africa-backend-999275183993.us-central1.run.app/:path*',
       },
     ]
   },
