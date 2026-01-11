@@ -12,6 +12,7 @@ import { Upload, FileAudio, Loader2, CheckCircle2, XCircle, Download } from "luc
 import { cn } from "@/lib/utils"
 import { toast } from "sonner"
 import { Spinner } from "@/components/kibo-ui/spinner"
+import { TranslationPanel } from "@/components/translation-panel"
 
 interface TranscriptionResult {
   text: string
@@ -294,6 +295,9 @@ export function AudioUpload({ onSuccess }: AudioUploadProps) {
               <div className="p-3 bg-muted rounded-lg max-h-[200px] overflow-y-auto">
                 <p className="text-sm whitespace-pre-wrap">{result.text}</p>
               </div>
+
+              {/* Translation Panel */}
+              <TranslationPanel sourceText={result.text} />
             </div>
           </div>
         )}
