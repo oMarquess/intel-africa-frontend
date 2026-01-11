@@ -63,12 +63,12 @@ export class ApiKeyService {
         console.warn('Could not extract user ID from token:', error)
       }
 
-      const requestUrl = `${this.baseUrl}/api-key/create`
+      const requestUrl = `${this.baseUrl}/api-key`
       const requestHeaders = {
         'Content-Type': 'application/json',
         'Authorization': `Bearer ${token}`,
       }
-      
+
       // Prepare request data with created_by and permissions fields
       const requestData = {
         name: data.name,
@@ -77,7 +77,7 @@ export class ApiKeyService {
         created_by: userId,
         permissions: data.permissions || {}
       }
-      
+
       const requestBody = JSON.stringify(requestData)
 
       // Log the full request details
@@ -108,7 +108,7 @@ export class ApiKeyService {
 
       const result: ApiKeyCreateResponse = await response.json()
       console.log('API Key created successfully:', result)
-      
+
       return result
     } catch (error) {
       console.error('Error creating API key:', error)
@@ -141,7 +141,7 @@ export class ApiKeyService {
 
       const result: ApiKeyListResponse = await response.json()
       console.log('API keys fetched:', result)
-      
+
       return result
     } catch (error) {
       console.error('Error fetching API keys:', error)
@@ -177,7 +177,7 @@ export class ApiKeyService {
 
       const result: ApiKeyRevokeResponse = await response.json()
       console.log('API Key revoked successfully:', result)
-      
+
       return result
     } catch (error) {
       console.error('Error revoking API key:', error)
@@ -215,7 +215,7 @@ export class ApiKeyService {
    */
   formatDate(dateString: string | null): string {
     if (!dateString) return 'Never'
-    
+
     try {
       const date = new Date(dateString)
       return date.toLocaleDateString('en-US', {
@@ -233,7 +233,7 @@ export class ApiKeyService {
    */
   formatRelativeTime(dateString: string | null): string {
     if (!dateString) return 'Never'
-    
+
     try {
       const date = new Date(dateString)
       const now = new Date()
@@ -244,7 +244,7 @@ export class ApiKeyService {
       if (diffHours < 1) return 'Just now'
       if (diffHours < 24) return `${diffHours} hour${diffHours > 1 ? 's' : ''} ago`
       if (diffDays < 7) return `${diffDays} day${diffDays > 1 ? 's' : ''} ago`
-      
+
       return this.formatDate(dateString)
     } catch {
       return 'Unknown'
