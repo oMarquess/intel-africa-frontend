@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, useCallback } from "react"
+import { useState, useCallback, useEffect } from "react"
 import { useAuth } from "@clerk/nextjs"
 import { useDropzone } from "react-dropzone"
 import { Button } from "@/components/ui/button"
@@ -12,6 +12,7 @@ import { Upload, FileAudio, Loader2, CheckCircle2, XCircle, Download } from "luc
 import { cn } from "@/lib/utils"
 import { toast } from "sonner"
 import { Spinner } from "@/components/kibo-ui/spinner"
+import { TranslationPanel } from "@/components/translation-panel"
 
 interface TranscriptionResult {
   text: string
@@ -25,12 +26,17 @@ interface AudioUploadProps {
 
 export function AudioUpload({ onSuccess }: AudioUploadProps) {
   const { getToken } = useAuth()
+  const [mounted, setMounted] = useState(false)
   const [selectedModel, setSelectedModel] = useState("intel-griot")
   const [isUploading, setIsUploading] = useState(false)
   const [uploadProgress, setUploadProgress] = useState(0)
   const [result, setResult] = useState<TranscriptionResult | null>(null)
   const [error, setError] = useState<string | null>(null)
   const [selectedFile, setSelectedFile] = useState<File | null>(null)
+
+  useEffect(() => {
+    setMounted(true)
+  }, [])
 
   const onDrop = useCallback((acceptedFiles: File[]) => {
     if (acceptedFiles.length > 0) {
@@ -58,7 +64,7 @@ export function AudioUpload({ onSuccess }: AudioUploadProps) {
 
     try {
       const token = await getToken()
-      
+
       if (!token) {
         throw new Error("Not authenticated")
       }
@@ -111,8 +117,8 @@ export function AudioUpload({ onSuccess }: AudioUploadProps) {
             errorMessage = errorData
           } else if (errorData.detail) {
             // FastAPI format: { detail: "error message" }
-            errorMessage = typeof errorData.detail === 'string' 
-              ? errorData.detail 
+            errorMessage = typeof errorData.detail === 'string'
+              ? errorData.detail
               : JSON.stringify(errorData.detail)
           } else if (errorData.message) {
             errorMessage = errorData.message
@@ -133,7 +139,7 @@ export function AudioUpload({ onSuccess }: AudioUploadProps) {
       setResult(data)
       onSuccess?.(data)
       setSelectedFile(null)
-      
+
       toast.success("Transcription completed!", {
         description: data.duration ? `Duration: ${data.duration.toFixed(1)}s` : "Your audio has been transcribed successfully.",
       })
@@ -141,7 +147,7 @@ export function AudioUpload({ onSuccess }: AudioUploadProps) {
       console.error("Upload error:", err)
       const errorMessage = err instanceof Error ? err.message : String(err)
       setError(errorMessage)
-      
+
       toast.error("Transcription failed", {
         description: errorMessage,
       })
@@ -163,6 +169,11 @@ export function AudioUpload({ onSuccess }: AudioUploadProps) {
     a.click()
     document.body.removeChild(a)
     URL.revokeObjectURL(url)
+  }
+
+  // Prevent SSR hydration mismatch
+  if (!mounted) {
+    return null
   }
 
   return (
@@ -219,7 +230,7 @@ export function AudioUpload({ onSuccess }: AudioUploadProps) {
               <SelectItem value="intel-griot">Intel Griot</SelectItem>
             </SelectContent>
           </Select>
-          
+
           <Button
             onClick={handleUpload}
             disabled={!selectedFile || isUploading}
@@ -267,7 +278,7 @@ export function AudioUpload({ onSuccess }: AudioUploadProps) {
                 Complete!{result.duration ? ` ${result.duration.toFixed(1)}s` : ''}
               </AlertDescription>
             </Alert>
-            
+
             <div className="space-y-2">
               <div className="flex items-center justify-between">
                 <label className="text-xs font-medium text-muted-foreground">TRANSCRIPTION</label>
@@ -284,6 +295,9 @@ export function AudioUpload({ onSuccess }: AudioUploadProps) {
               <div className="p-3 bg-muted rounded-lg max-h-[200px] overflow-y-auto">
                 <p className="text-sm whitespace-pre-wrap">{result.text}</p>
               </div>
+
+              {/* Translation Panel */}
+              <TranslationPanel sourceText={result.text} />
             </div>
           </div>
         )}

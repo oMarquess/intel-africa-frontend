@@ -6,6 +6,7 @@ import { NavMain } from "@/components/nav-main"
 import { NavDocuments } from "@/components/nav-documents"
 import { NavSecondary } from "@/components/nav-secondary"
 import { NavUser } from "@/components/nav-user"
+import { SidebarTrialCard } from "@/components/sidebar-trial-card"
 import {
   Sidebar,
   SidebarContent,
@@ -102,10 +103,15 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
               className="data-[slot=sidebar-menu-button]:!p-1.5"
             >
               <a href="/dashboard" className="flex items-center">
-                <img 
-                  src="/Asset 2.svg" 
-                  alt="Intel Africa" 
-                  className="h-5 w-auto dark:invert-0 invert"
+                <img
+                  src="/Asset-4.svg"
+                  alt="Intelligence Africa"
+                  className="h-5 w-auto md:hidden"
+                />
+                <img
+                  src="/Asset-3.svg"
+                  alt="Intelligence Africa"
+                  className="h-5 w-auto hidden md:block"
                 />
               </a>
             </SidebarMenuButton>
@@ -204,6 +210,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
         <NavSecondary items={data.navSecondary} className="mt-auto" /> */}
       </SidebarContent>
       <SidebarFooter>
+        <SidebarTrialCard />
         <NavUser />
       </SidebarFooter>
     </Sidebar>

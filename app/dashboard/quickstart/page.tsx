@@ -8,17 +8,17 @@ import { ArrowRight, Sparkles, Shield, Clock } from "lucide-react"
 import Link from "next/link"
 import type { BundledLanguage } from "@/components/kibo-ui/code-block"
 import {
-  CodeBlock,
-  CodeBlockBody,
-  CodeBlockContent,
-  CodeBlockCopyButton,
-  CodeBlockHeader,
-  CodeBlockItem,
-  CodeBlockSelect,
-  CodeBlockSelectContent,
-  CodeBlockSelectItem,
-  CodeBlockSelectTrigger,
-  CodeBlockSelectValue,
+    CodeBlock,
+    CodeBlockBody,
+    CodeBlockContent,
+    CodeBlockCopyButton,
+    CodeBlockHeader,
+    CodeBlockItem,
+    CodeBlockSelect,
+    CodeBlockSelectContent,
+    CodeBlockSelectItem,
+    CodeBlockSelectTrigger,
+    CodeBlockSelectValue,
 } from "@/components/kibo-ui/code-block"
 import { codeExamples } from "./code-examples"
 
@@ -65,7 +65,7 @@ export default function QuickstartPage() {
                                 Start Building in Minutes
                             </h1>
                             <p className="text-lg md:text-xl text-muted-foreground max-w-3xl mx-auto leading-relaxed">
-                                Get up and running with the Intel Africa API in just a few simple steps. No complex setup required.
+                                Get up and running with the Intelligence Africa API in just a few simple steps. No complex setup required.
                             </p>
                         </div>
                     </div>
@@ -74,7 +74,7 @@ export default function QuickstartPage() {
                     {/* Steps Section - Split Layout */}
                     <div className="space-y-6">
                         <h2 className="text-2xl font-bold mb-8">Get Started in 3 Steps</h2>
-                        
+
                         <div className="grid lg:grid-cols-[280px_1fr] gap-8">
                             {/* Sticky Navigation Sidebar */}
                             <div className="lg:sticky lg:top-6 lg:self-start space-y-2 h-fit">
@@ -83,43 +83,40 @@ export default function QuickstartPage() {
                                         setActiveStep('step1')
                                         document.getElementById('step1')?.scrollIntoView({ behavior: 'smooth', block: 'center' })
                                     }}
-                                    className={`w-full text-left p-4 rounded-lg border border-dashed transition-all ${
-                                        activeStep === 'step1' 
-                                            ? 'border-primary bg-primary/5' 
+                                    className={`w-full text-left p-4 rounded-lg border border-dashed transition-all ${activeStep === 'step1'
+                                            ? 'border-primary bg-primary/5'
                                             : 'border-border hover:border-primary/50'
-                                    }`}
+                                        }`}
                                 >
                                     <Badge variant="outline" className="mb-2">Step 1</Badge>
                                     <div className="font-semibold text-base">Get Your API Key</div>
                                     <p className="text-sm text-muted-foreground mt-1">Create and manage keys</p>
                                 </button>
-                                
+
                                 <button
                                     onClick={() => {
                                         setActiveStep('step2')
                                         document.getElementById('step2')?.scrollIntoView({ behavior: 'smooth', block: 'center' })
                                     }}
-                                    className={`w-full text-left p-4 rounded-lg border border-dashed transition-all ${
-                                        activeStep === 'step2' 
-                                            ? 'border-primary bg-primary/5' 
+                                    className={`w-full text-left p-4 rounded-lg border border-dashed transition-all ${activeStep === 'step2'
+                                            ? 'border-primary bg-primary/5'
                                             : 'border-border hover:border-primary/50'
-                                    }`}
+                                        }`}
                                 >
                                     <Badge variant="outline" className="mb-2">Step 2</Badge>
                                     <div className="font-semibold text-base">Make Your First Request</div>
                                     <p className="text-sm text-muted-foreground mt-1">Test the API</p>
                                 </button>
-                                
+
                                 <button
                                     onClick={() => {
                                         setActiveStep('step3')
                                         document.getElementById('step3')?.scrollIntoView({ behavior: 'smooth', block: 'center' })
                                     }}
-                                    className={`w-full text-left p-4 rounded-lg border border-dashed transition-all ${
-                                        activeStep === 'step3' 
-                                            ? 'border-primary bg-primary/5' 
+                                    className={`w-full text-left p-4 rounded-lg border border-dashed transition-all ${activeStep === 'step3'
+                                            ? 'border-primary bg-primary/5'
                                             : 'border-border hover:border-primary/50'
-                                    }`}
+                                        }`}
                                 >
                                     <Badge variant="outline" className="mb-2">Step 3</Badge>
                                     <div className="font-semibold text-base">Start Building</div>
@@ -161,34 +158,34 @@ export default function QuickstartPage() {
                                             </CardDescription>
                                         </div>
                                     </CardHeader>
-                                <CardContent>
-                                    <CodeBlock data={codeExamples} defaultValue={codeExamples[0].language}>
-                                        <CodeBlockHeader>
-                                            <CodeBlockSelect>
-                                                <CodeBlockSelectTrigger>
-                                                    <CodeBlockSelectValue />
-                                                </CodeBlockSelectTrigger>
-                                                <CodeBlockSelectContent>
-                                                    {(item) => (
-                                                        <CodeBlockSelectItem key={item.language} value={item.language}>
-                                                            {item.language}
-                                                        </CodeBlockSelectItem>
-                                                    )}
-                                                </CodeBlockSelectContent>
-                                            </CodeBlockSelect>
-                                            <CodeBlockCopyButton />
-                                        </CodeBlockHeader>
-                                        <CodeBlockBody>
-                                            {(item) => (
-                                                <CodeBlockItem key={item.language} value={item.language}>
-                                                    <CodeBlockContent language={item.language as BundledLanguage}>
-                                                        {item.code}
-                                                    </CodeBlockContent>
-                                                </CodeBlockItem>
-                                            )}
-                                        </CodeBlockBody>
-                                    </CodeBlock>
-                                </CardContent>
+                                    <CardContent>
+                                        <CodeBlock data={codeExamples} defaultValue={codeExamples[0].language}>
+                                            <CodeBlockHeader>
+                                                <CodeBlockSelect>
+                                                    <CodeBlockSelectTrigger>
+                                                        <CodeBlockSelectValue />
+                                                    </CodeBlockSelectTrigger>
+                                                    <CodeBlockSelectContent>
+                                                        {(item) => (
+                                                            <CodeBlockSelectItem key={item.language} value={item.language}>
+                                                                {item.language}
+                                                            </CodeBlockSelectItem>
+                                                        )}
+                                                    </CodeBlockSelectContent>
+                                                </CodeBlockSelect>
+                                                <CodeBlockCopyButton />
+                                            </CodeBlockHeader>
+                                            <CodeBlockBody>
+                                                {(item) => (
+                                                    <CodeBlockItem key={item.language} value={item.language}>
+                                                        <CodeBlockContent language={item.language as BundledLanguage}>
+                                                            {item.code}
+                                                        </CodeBlockContent>
+                                                    </CodeBlockItem>
+                                                )}
+                                            </CodeBlockBody>
+                                        </CodeBlock>
+                                    </CardContent>
                                 </Card>
 
                                 {/* Step 3 */}

@@ -28,18 +28,23 @@ export function Navbar() {
     return (
         <nav
             className={`fixed top-6 left-6 right-6 z-50 transition-all duration-300 ${isScrolled
-                    ? 'bg-white backdrop-blur-2xl border border-gray-200 shadow-lg rounded-3xl'
-                    : 'bg-white/98 backdrop-blur-xl border border-gray-200/50 rounded-3xl'
+                ? 'bg-white backdrop-blur-2xl border border-gray-200 shadow-lg rounded-3xl'
+                : 'bg-white/98 backdrop-blur-xl border border-gray-200/50 rounded-3xl'
                 }`}
         >
             <div className="px-6">
                 <div className="flex items-center justify-between h-12">
                     {/* Logo */}
                     <a href="/" className="flex items-center">
-                        <img 
-                            src="/Asset 2.svg" 
-                            alt="Intel Africa" 
-                            className="h-6 w-auto invert"
+                        <img
+                            src="/Asset-4.svg"
+                            alt="Intelligence Africa"
+                            className="h-6 w-auto md:hidden"
+                        />
+                        <img
+                            src="/Asset-3.svg"
+                            alt="Intelligence Africa"
+                            className="h-6 w-auto hidden md:block"
                         />
                     </a>
 
