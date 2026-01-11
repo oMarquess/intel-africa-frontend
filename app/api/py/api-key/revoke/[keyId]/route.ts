@@ -8,7 +8,7 @@ const BACKEND_URL = process.env.BACKEND_URL || 'https://intel-africa-backend-999
  */
 export async function DELETE(
     request: NextRequest,
-    { params }: { params: { keyId: string } }
+    { params }: { params: Promise<{ keyId: string }> }
 ) {
     try {
         const authHeader = request.headers.get('authorization')
@@ -20,7 +20,7 @@ export async function DELETE(
             )
         }
 
-        const { keyId } = params
+        const { keyId } = await params
 
         const response = await fetch(`${BACKEND_URL}/api-key/revoke/${keyId}`, {
             method: 'DELETE',
