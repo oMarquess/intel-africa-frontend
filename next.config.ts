@@ -7,10 +7,11 @@ const nextConfig: NextConfig = {
     },
   },
   async rewrites() {
+    const backendUrl = process.env.BACKEND_URL || 'https://intel-africa-backend-999275183993.us-central1.run.app'
     return [
       {
         source: '/api/py/:path*',
-        destination: process.env.BACKEND_URL || 'https://intel-africa-backend-999275183993.us-central1.run.app/:path*',
+        destination: `${backendUrl}/:path*`,
       },
     ]
   },
