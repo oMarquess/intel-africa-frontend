@@ -8,6 +8,7 @@ import { Download, Languages, Loader2, StopCircle, Sparkles } from "lucide-react
 import { cn } from "@/lib/utils"
 import { useTranslation } from "@/hooks/use-translation"
 import { SupportedLanguage, LANGUAGE_LABELS } from "@/lib/translation.types"
+import { Shimmer } from "@/components/ai-elements/shimmer"
 
 interface TranslationPanelProps {
     sourceText: string
@@ -125,7 +126,11 @@ export function TranslationPanel({ sourceText, className }: TranslationPanelProp
 
                     <div className="relative p-3 bg-muted rounded-lg max-h-[200px] overflow-y-auto">
                         <p className="text-sm whitespace-pre-wrap">
-                            {translatedText}
+                            {isTranslating ? (
+                                <Shimmer className="text-sm">{translatedText}</Shimmer>
+                            ) : (
+                                translatedText
+                            )}
                             {isTranslating && (
                                 <span className="inline-block w-1 h-4 ml-1 bg-primary animate-pulse" />
                             )}
