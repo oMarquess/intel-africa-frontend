@@ -7,6 +7,12 @@ export const runtime = 'edge'
 
 export async function POST(req: NextRequest) {
     try {
+        // Check if API key is available
+        if (!process.env.GOOGLE_GENERATIVE_AI_API_KEY) {
+            console.error('GOOGLE_GENERATIVE_AI_API_KEY is not set')
+            return new Response('Translation service not configured', { status: 500 })
+        }
+
         const body = await req.json()
         const { messages, data } = body
         const target_language = data?.target_language
