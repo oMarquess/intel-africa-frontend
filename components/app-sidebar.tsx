@@ -26,6 +26,10 @@ const data = {
       url: "#",
       items: [
         {
+          title: "Overview",
+          url: "/dashboard",
+        },
+        {
           title: "Quickstart",
           url: "/dashboard/quickstart",
         },
@@ -122,19 +126,15 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
         {/* Get Started Section */}
         <SidebarGroup>
           <SidebarGroupContent className="flex flex-col gap-2">
-            <SidebarMenu>
-              {data.navMain
-                .filter(item => item.title === "Get Started")
-                .map((item) => (
-                  <SidebarMenuItem key={item.title}>
-                    <SidebarMenuButton tooltip={item.title} asChild>
-                      <a href={item.url}>
-                        <span className="font-medium">{item.title}</span>
-                      </a>
-                    </SidebarMenuButton>
-                  </SidebarMenuItem>
-                ))}
-            </SidebarMenu>
+            {data.navMain
+              .filter(item => item.title === "Get Started")
+              .map((item) => (
+                <div key={item.title} className="px-2 py-1.5">
+                  <span className="text-xs font-semibold text-muted-foreground uppercase tracking-wider">
+                    {item.title}
+                  </span>
+                </div>
+              ))}
             {data.navMain
               .filter(item => item.title === "Get Started" && item.items)
               .map((item) => (
@@ -156,19 +156,15 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
         {/* Manage Section */}
         <SidebarGroup>
           <SidebarGroupContent className="flex flex-col gap-2">
-            <SidebarMenu>
-              {data.navMain
-                .filter(item => item.title === "Manage")
-                .map((item) => (
-                  <SidebarMenuItem key={item.title}>
-                    <SidebarMenuButton tooltip={item.title} asChild>
-                      <a href={item.url}>
-                        <span className="font-medium">{item.title}</span>
-                      </a>
-                    </SidebarMenuButton>
-                  </SidebarMenuItem>
-                ))}
-            </SidebarMenu>
+            {data.navMain
+              .filter(item => item.title === "Manage")
+              .map((item) => (
+                <div key={item.title} className="px-2 py-1.5">
+                  <span className="text-xs font-semibold text-muted-foreground uppercase tracking-wider">
+                    {item.title}
+                  </span>
+                </div>
+              ))}
             {data.navMain
               .filter(item => item.title === "Manage" && item.items)
               .map((item) => (
