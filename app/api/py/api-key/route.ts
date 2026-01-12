@@ -10,14 +10,22 @@ export async function GET(request: NextRequest) {
     try {
         const authHeader = request.headers.get('authorization')
 
+        console.log('=== GET /api/py/api-key ===')
+        console.log('Auth header present:', !!authHeader)
+        console.log('Auth header value:', authHeader ? authHeader.substring(0, 20) + '...' : 'NONE')
+
         if (!authHeader) {
+            console.error('No authorization header found')
             return NextResponse.json(
                 { error: 'Authorization header is required' },
                 { status: 401 }
             )
         }
 
-        const response = await fetch(`${BACKEND_URL}/api-key`, {
+        const backendUrl = `${BACKEND_URL}/api-key/`
+        console.log('Fetching from backend:', backendUrl)
+
+        const response = await fetch(backendUrl, {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
@@ -25,13 +33,32 @@ export async function GET(request: NextRequest) {
             },
         })
 
+        console.log('Backend response status:', response.status)
+        console.log('Backend response headers:', Object.fromEntries(response.headers.entries()))
+
+        if (!response.ok) {
+            const errorText = await response.text()
+            console.error('Backend error:', errorText)
+            console.error('Request details:', {
+                url: backendUrl,
+                method: 'GET',
+                authHeaderLength: authHeader.length,
+                authHeaderStart: authHeader.substring(0, 30)
+            })
+            return NextResponse.json(
+                { error: errorText },
+                { status: response.status }
+            )
+        }
+
         const data = await response.json()
+        console.log('Successfully fetched API keys, count:', data.keys?.length || 0)
 
         return NextResponse.json(data, { status: response.status })
     } catch (error) {
         console.error('Error fetching API keys:', error)
         return NextResponse.json(
-            { error: 'Failed to fetch API keys' },
+            { error: 'Failed to fetch API keys', details: error instanceof Error ? error.message : 'Unknown error' },
             { status: 500 }
         )
     }
