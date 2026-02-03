@@ -120,12 +120,12 @@ export default function Page() {
                           <div className="space-y-3">
                             <div className="space-y-1">
                               <h4 className="text-xs font-semibold text-muted-foreground uppercase">Architecture</h4>
-                              <p className="text-sm font-medium leading-tight">Medium-sized model optimized for accuracy and speed</p>
+                              <p className="text-sm font-medium leading-tight">Large model optimized for accuracy and speed</p>
                             </div>
                             <div className="h-px bg-border/50" />
                             <div className="space-y-1">
                               <h4 className="text-xs font-semibold text-muted-foreground uppercase">Optimization</h4>
-                              <p className="text-sm font-medium leading-tight">Fine-tuned for African languages and accents</p>
+                              <p className="text-sm font-medium leading-tight">Trained for African languages and accents</p>
                             </div>
                             <div className="h-px bg-border/50" />
                             <div className="space-y-1">

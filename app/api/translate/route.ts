@@ -31,7 +31,7 @@ export async function POST(req: NextRequest) {
         const languageName = LANGUAGE_NAMES[target_language as SupportedLanguage]
 
         const result = await streamText({
-            model: google('gemini-3-pro-preview'),
+            model: google('gemini-3-flash-preview'),
             system: `You are a professional translator specializing in Ghanaian languages. 
 Your task is to translate English text to ${languageName}.
 Provide ONLY the translation without any explanations, notes, or additional text.
