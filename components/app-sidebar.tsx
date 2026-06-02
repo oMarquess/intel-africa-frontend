@@ -33,6 +33,11 @@ const data = {
           title: "Quickstart",
           url: "/dashboard/quickstart",
         },
+        {
+          title: "Text-to-Speech",
+          url: "/dashboard/tts",
+          badge: "new",
+        },
       ],
     },
     {
@@ -142,8 +147,13 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
                   {item.items?.map((subItem) => (
                     <SidebarMenuItem key={subItem.title}>
                       <SidebarMenuButton tooltip={subItem.title} asChild>
-                        <a href={subItem.url} className="pl-6">
+                        <a href={subItem.url} className="pl-6 flex items-center justify-between">
                           <span className="font-medium">{subItem.title}</span>
+                          {subItem.badge && (
+                            <span className="ml-2 px-1.5 py-0.5 text-[10px] font-semibold uppercase bg-blue-500 text-white rounded">
+                              {subItem.badge}
+                            </span>
+                          )}
                         </a>
                       </SidebarMenuButton>
                     </SidebarMenuItem>
