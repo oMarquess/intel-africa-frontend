@@ -43,6 +43,16 @@ export async function fetchModels(): Promise<ModelInfo[]> {
   return res.json()
 }
 
+async function getAudioDuration(audioUrl: string): Promise<number> {
+  return new Promise((resolve, reject) => {
+    const audio = new Audio(audioUrl)
+    audio.addEventListener("loadedmetadata", () => {
+      resolve(audio.duration)
+    })
+    audio.addEventListener("error", reject)
+  })
+}
+
 export async function generateSpeech(
   params: GenerateSpeechParams
 ): Promise<GenerateSpeechResult> {
@@ -57,12 +67,21 @@ export async function generateSpeech(
     throw new Error(err.detail || "Speech generation failed")
   }
 
-  const durationSeconds = parseFloat(res.headers.get("X-Duration-Seconds") || "0")
+  let durationSeconds = parseFloat(res.headers.get("X-Duration-Seconds") || "0")
   const charactersUsed = parseInt(res.headers.get("X-Characters-Used") || "0", 10)
   const processingTime = parseFloat(res.headers.get("X-Processing-Time") || "0")
 
   const blob = await res.blob()
   const audioUrl = URL.createObjectURL(blob)
+
+  // Fallback: if backend returns 0 duration, calculate from audio file
+  if (durationSeconds === 0) {
+    try {
+      durationSeconds = await getAudioDuration(audioUrl)
+    } catch (e) {
+      console.warn("Failed to calculate audio duration:", e)
+    }
+  }
 
   return { audioUrl, durationSeconds, charactersUsed, processingTime }
 }
@@ -129,12 +148,21 @@ export async function generateSpeechWithReference(
     throw new Error(err.detail || "Speech generation with reference failed")
   }
 
-  const durationSeconds = parseFloat(res.headers.get("X-Duration-Seconds") || "0")
+  let durationSeconds = parseFloat(res.headers.get("X-Duration-Seconds") || "0")
   const charactersUsed = parseInt(res.headers.get("X-Characters-Used") || "0", 10)
   const processingTime = parseFloat(res.headers.get("X-Processing-Time") || "0")
 
   const blob = await res.blob()
   const audioUrl = URL.createObjectURL(blob)
+
+  // Fallback: if backend returns 0 duration, calculate from audio file
+  if (durationSeconds === 0) {
+    try {
+      durationSeconds = await getAudioDuration(audioUrl)
+    } catch (e) {
+      console.warn("Failed to calculate audio duration:", e)
+    }
+  }
 
   return { audioUrl, durationSeconds, charactersUsed, processingTime }
 }
