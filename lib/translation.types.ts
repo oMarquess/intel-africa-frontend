@@ -1,6 +1,6 @@
 // Translation types for Twi, Ga, and Ewe language support
 
-export type SupportedLanguage = 'twi' | 'ga' | 'ewe'
+export type SupportedLanguage = 'twi' | 'ga' | 'ewe' | 'en'
 
 export interface TranslationRequest {
     text: string
@@ -18,10 +18,12 @@ export const LANGUAGE_LABELS: Record<SupportedLanguage, string> = {
     twi: 'Twi',
     ga: 'Ga',
     ewe: 'Ewe',
+    en: 'English',
 }
 
 export const LANGUAGE_NAMES: Record<SupportedLanguage, string> = {
     twi: 'Twi (Akan)',
     ga: 'Ga',
     ewe: 'Ewe',
+    en: 'English',
 }

@@ -24,19 +24,37 @@ export async function POST(req: NextRequest) {
             return new Response('Missing or invalid text in messages', { status: 400 })
         }
 
-        if (!target_language || !['twi', 'ga', 'ewe'].includes(target_language)) {
-            return new Response('Invalid target_language. Must be one of: twi, ga, ewe', { status: 400 })
+        if (!target_language || !['twi', 'ga', 'ewe', 'en'].includes(target_language)) {
+            return new Response('Invalid target_language. Must be one of: twi, ga, ewe, en', { status: 400 })
         }
 
         const languageName = LANGUAGE_NAMES[target_language as SupportedLanguage]
 
-        const result = await streamText({
-            model: google('gemini-3-flash-preview'),
-            system: `You are a professional translator specializing in Ghanaian languages. 
+        // Determine translation direction and create appropriate prompts
+        let systemPrompt: string
+        let userPrompt: string
+
+        if (target_language === 'en') {
+            // Translating FROM Ghanaian languages TO English
+            systemPrompt = `You are a professional translator specializing in Ghanaian languages. 
+Your task is to translate text from Ghanaian languages (Twi, Ga, or Ewe) to English.
+First, automatically detect which Ghanaian language the text is in.
+Then provide ONLY the English translation without any explanations, notes, or additional text.
+Maintain the original meaning, tone, and context as accurately as possible.`
+            userPrompt = `Translate the following Ghanaian language text to English:\n\n${text}`
+        } else {
+            // Translating FROM English TO Ghanaian languages (existing behavior)
+            systemPrompt = `You are a professional translator specializing in Ghanaian languages. 
 Your task is to translate English text to ${languageName}.
 Provide ONLY the translation without any explanations, notes, or additional text.
-Maintain the original meaning, tone, and context as accurately as possible.`,
-            prompt: `Translate the following text to ${languageName}:\n\n${text}`,
+Maintain the original meaning, tone, and context as accurately as possible.`
+            userPrompt = `Translate the following text to ${languageName}:\n\n${text}`
+        }
+
+        const result = await streamText({
+            model: google('gemini-3-flash-preview'),
+            system: systemPrompt,
+            prompt: userPrompt,
             temperature: 0.3, // Lower temperature for more consistent translations
         })
 
