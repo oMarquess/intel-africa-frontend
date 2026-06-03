@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Alert, AlertDescription } from "@/components/ui/alert"
 import { Download, Languages, Loader2, StopCircle, Sparkles } from "lucide-react"
+import { FiFlag } from "react-icons/fi"
 import { cn } from "@/lib/utils"
 import { useTranslation } from "@/hooks/use-translation"
 import { SupportedLanguage, LANGUAGE_LABELS } from "@/lib/translation.types"
@@ -58,17 +59,26 @@ export function TranslationPanel({ sourceText, className }: TranslationPanelProp
                     <SelectContent>
                         <SelectItem value="twi">
                             <span className="flex items-center gap-2">
-                                🇬🇭 {LANGUAGE_LABELS.twi}
+                                <FiFlag className="w-4 h-4 text-green-600" />
+                                {LANGUAGE_LABELS.twi}
                             </span>
                         </SelectItem>
                         <SelectItem value="ga">
                             <span className="flex items-center gap-2">
-                                🇬🇭 {LANGUAGE_LABELS.ga}
+                                <FiFlag className="w-4 h-4 text-yellow-600" />
+                                {LANGUAGE_LABELS.ga}
                             </span>
                         </SelectItem>
                         <SelectItem value="ewe">
                             <span className="flex items-center gap-2">
-                                🇬🇭 {LANGUAGE_LABELS.ewe}
+                                <FiFlag className="w-4 h-4 text-red-600" />
+                                {LANGUAGE_LABELS.ewe}
+                            </span>
+                        </SelectItem>
+                        <SelectItem value="en">
+                            <span className="flex items-center gap-2">
+                                <FiFlag className="w-4 h-4 text-blue-600" />
+                                {LANGUAGE_LABELS.en}
                             </span>
                         </SelectItem>
                     </SelectContent>
