@@ -16,6 +16,7 @@ interface TrialStatus {
 
 export function useTrialStatus() {
   const { getToken } = useAuth()
+  const apiUrl = process.env.NEXT_PUBLIC_API_URL?.replace(/\/$/, "")
 
   return useQuery({
     queryKey: ["trial-status"],
@@ -26,7 +27,7 @@ export function useTrialStatus() {
         throw new Error("Not authenticated")
       }
 
-      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/usage/trial/remaining`, {
+      const response = await fetch(`${apiUrl}/usage/trial/remaining`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
