@@ -1,7 +1,7 @@
 import { UsageStatsResponse, UsageStatsParams } from './usage.types'
 
 // API Configuration
-const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL 
+const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL?.replace(/\/$/, "")
 
 export class UsageService {
     private readonly baseUrl = API_BASE_URL

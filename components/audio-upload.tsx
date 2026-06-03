@@ -103,7 +103,7 @@ export function AudioUpload({ onSuccess }: AudioUploadProps) {
           reject(new Error("Upload timeout"))
         })
 
-        xhr.open("POST", `${process.env.NEXT_PUBLIC_API_URL}/v1/stt/transcribe`)
+        xhr.open("POST", `${process.env.NEXT_PUBLIC_API_URL?.replace(/\/$/, "")}/v1/stt/transcribe`)
         xhr.setRequestHeader("Authorization", `Bearer ${token}`)
         xhr.send(formData)
       })
